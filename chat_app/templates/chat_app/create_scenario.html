@@ -1,0 +1,13 @@
+<!-- chat_app/templates/chat_app/create_scenario.html -->
+
+{% extends 'chat_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Create New Scenario</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+{% endblock %}

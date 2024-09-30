@@ -1,0 +1,45 @@
+<!-- chat_app/templates/chat_app/chat.html -->
+
+{% extends 'chat_app/base.html' %}
+
+{% block extra_css %}
+<style>
+    #chat-log {
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    .message {
+        margin-bottom: 10px;
+    }
+    .student-message {
+        text-align: right;
+    }
+    .bot-message {
+        text-align: left;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Conversation with Customer</h2>
+<div id="chat-log">
+    {% for message in messages %}
+    <div class="message {% if message.sender == user.userprofile %}student-message{% else %}bot-message{% endif %}">
+        <strong>{{ message.sender_name }}:</strong> {{ message.message }}
+    </div>
+    {% endfor %}
+</div>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <div class="input-group">
+        <input type="text" name="message" class="form-control" placeholder="Type your message..." autocomplete="off">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+</form>
+<a href="{% url 'end_conversation' conversation.assignment.id %}" class="btn btn-danger mt-3">End Conversation</a>
+{% endblock %}

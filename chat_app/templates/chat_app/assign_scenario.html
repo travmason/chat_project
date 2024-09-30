@@ -1,0 +1,26 @@
+<!-- chat_app/templates/chat_app/assign_scenario.html -->
+
+{% extends 'chat_app/base.html' %}
+
+{% block content %}
+<h2>Assign Scenario</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="scenario_id">Select Scenario</label>
+        <select class="form-control" name="scenario_id" id="scenario_id">
+            {% for scenario in scenarios %}
+            <option value="{{ scenario.id }}">{{ scenario.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="student_username">Student Username</label>
+        <input type="text" class="form-control" name="student_username" id="student_username" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Assign</button>
+</form>
+{% endblock %}
