@@ -32,14 +32,125 @@
     {% endfor %}
 </div>
 <br>
-<form method="post">
+<form id="chat-form" method="post">
     {% csrf_token %}
     <div class="input-group">
-        <input type="text" name="message" class="form-control" placeholder="Type your message..." autocomplete="off">
+        <input type="text" name="message" id="chat-message-input" class="form-control" placeholder="Type your message..." autocomplete="off">
         <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" id="chat-message-submit" class="btn btn-primary">Send</button>
         </div>
     </div>
 </form>
-<a href="{% url 'end_conversation' conversation.assignment.id %}" class="btn btn-danger mt-3">End Conversation</a>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    // Add this code before your AJAX call
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Get the CSRF token
+    var csrftoken = getCookie('csrftoken');
+
+    // Set up AJAX to include CSRF token in headers
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!(/^GET|HEAD|OPTIONS|TRACE$/i.test(settings.type)) && !this.crossDomain) {
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            }
+        }
+    });
+
+    // Function to scroll chat to bottom
+    function scrollChatToBottom() {
+        var chatLog = document.getElementById('chat-log');
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    // Document ready function
+    $(document).ready(function() {
+        // Scroll to bottom on page load
+        scrollChatToBottom();
+
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+            var messageInput = $('#chat-message-input');
+            var message = messageInput.val();
+
+            if (message.trim() === '') {
+                return;
+            }
+
+            // Disable the input and submit button
+            $('#chat-message-submit').prop('disabled', true);
+            messageInput.prop('disabled', true);
+
+            // Show loading indicator
+            $('#chat-log').append('<div id="loading" class="message bot-message">Customer is typing...</div>');
+            scrollChatToBottom();
+
+            $.ajax({
+                url: '',
+                type: 'POST',
+                data: {
+                    'message': message
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // Remove loading indicator
+                    $('#loading').remove();
+
+                    // Append student's message
+                    $('#chat-log').append(
+                        '<div class="message student-message"><strong>' + data.student_message.sender_name + ':</strong> ' + data.student_message.message + '</div>'
+                    );
+
+                    // Append bot's reply
+                    $('#chat-log').append(
+                        '<div class="message bot-message"><strong>' + data.bot_reply.sender_name + ':</strong> ' + data.bot_reply.message + '</div>'
+                    );
+
+                    // Clear the input field
+                    messageInput.val('');
+
+                    // Enable the input and submit button
+                    $('#chat-message-submit').prop('disabled', false);
+                    messageInput.prop('disabled', false);
+                    messageInput.focus();
+
+                    // Scroll to the bottom
+                    scrollChatToBottom();
+                },
+                error: function(xhr, errmsg, err) {
+                    // Remove loading indicator
+                    $('#loading').remove();
+
+                    // Enable the input and submit button
+                    $('#chat-message-submit').prop('disabled', false);
+                    messageInput.prop('disabled', false);
+
+                    alert('There was an error sending your message. Please try again.');
+                    console.log('AJAX Error: ' + errmsg);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

@@ -10,6 +10,8 @@ from .models import UserProfile, Assignment, Conversation, Message, Scenario
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+import openai
 
 class LoginView(auth_views.LoginView):
     template_name = 'chat_app/login.html'
@@ -106,11 +108,11 @@ def start_conversation(request, assignment_id):
         conversation.bot_context = f"You are acting as a customer in the following scenario: {scenario.description}"
         conversation.save()
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         user_message = request.POST.get('message')
 
         # Save the student's message
-        Message.objects.create(
+        student_message = Message.objects.create(
             conversation=conversation,
             sender=request.user.userprofile,
             sender_name=request.user.username,
@@ -140,14 +142,26 @@ def start_conversation(request, assignment_id):
         bot_reply = response['choices'][0]['message']['content'].strip()
 
         # Save bot's reply
-        Message.objects.create(
+        bot_message = Message.objects.create(
             conversation=conversation,
             sender=None,  # No sender for bot
             sender_name='Customer',
             message=bot_reply
         )
 
-        return redirect('start_conversation', assignment_id=assignment_id)
+        # Prepare JSON response
+        data = {
+            'student_message': {
+                'sender_name': student_message.sender_name,
+                'message': student_message.message,
+            },
+            'bot_reply': {
+                'sender_name': bot_message.sender_name,
+                'message': bot_message.message,
+            }
+        }
+
+        return JsonResponse(data)
 
     # Get all messages for display
     messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
