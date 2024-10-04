@@ -12,6 +12,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import openai
+import environ
+
+settings = environ.Env.read_env()
 
 class LoginView(auth_views.LoginView):
     template_name = 'chat_app/login.html'
