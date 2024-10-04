@@ -15,3 +15,5 @@
 12. Launch landing page
 13. Integrate with paywall
 14. Marketing materials
+15. Landing page
+16. Payment gateway integration
