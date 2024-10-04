@@ -1,19 +1,19 @@
 # chat_project
  
 ## TODO
-1. Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
-2. Change to AJAX based updates for real time conversation with bot
-3. Re do system prompt for best response based on latest chat-gpt models
-4. Re skin to look pretty
-5. Migrate to authentication via Cognito
-6. Security assessment
-7. Accessability compliance
-8. LMS integration
-9. Screenshots and videos
-10. Socials campaign
-11. List potential use cases
-12. Launch landing page
-13. Integrate with paywall
-14. Marketing materials
-15. Landing page
-16. Payment gateway integration
+- [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
+- [ ] Change to AJAX based updates for real time conversation with bot
+- [ ] Re do system prompt for best response based on latest chat-gpt models
+- [ ] Re skin to look pretty
+- [ ] Migrate to authentication via Cognito
+- [ ] Security assessment
+- [ ] Accessability compliance
+- [ ] LMS integration
+- [ ] Screenshots and videos
+- [ ] Socials campaign
+- [ ] List potential use cases
+- [ ] Launch landing page
+- [ ] Integrate with paywall
+- [ ] Marketing materials
+- [ ] Landing page
+- [ ] Payment gateway integration
