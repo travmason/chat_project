@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-import openai
+from openai import OpenAI
 import environ
 import os
 
@@ -30,11 +30,11 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 DEBUG = env('DEBUG')
 
 # Raises Django's ImproperlyConfigured
-# exception if SECRET_KEY not in os.environ
+# exception if KEY not in os.environ
 OPENAI_API_KEY = env('OPENAI_API_KEY')
 
-# write the key to the console for debugging
-print('OPENAI Key: ', OPENAI_API_KEY)
+# create OpenAI client object
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 class LoginView(auth_views.LoginView):
     template_name = 'chat_app/login.html'
@@ -156,14 +156,11 @@ def start_conversation(request, assignment_id):
                 messages.append({"role": "assistant", "content": msg.message})
 
         # Call OpenAI API
-        openai.api_key = OPENAI_API_KEY
 
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-        )
+        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        messages=messages)
 
-        bot_reply = response['choices'][0]['message']['content'].strip()
+        bot_reply = response.choices[0].message.content.strip()
 
         # Save bot's reply
         bot_message = Message.objects.create(

@@ -117,6 +117,10 @@
                     // Remove loading indicator
                     $('#loading').remove();
 
+                    // Need to change the order of events here to append the student's message first before making the call to the bot
+                    // This is because the bot's reply is dependent on the student's message
+                    // We want the student's message to appear first in the chat log
+
                     // Append student's message
                     $('#chat-log').append(
                         '<div class="message student-message"><strong>' + data.student_message.sender_name + ':</strong> ' + data.student_message.message + '</div>'
