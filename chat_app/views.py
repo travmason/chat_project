@@ -13,8 +13,28 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import openai
 import environ
+import os
 
-settings = environ.Env.read_env()
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True)
+)
+
+# Set the project base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# True if not in os.environ because of casting above
+DEBUG = env('DEBUG')
+
+# Raises Django's ImproperlyConfigured
+# exception if SECRET_KEY not in os.environ
+OPENAI_API_KEY = env('OPENAI_API_KEY')
+
+# write the key to the console for debugging
+print('OPENAI Key: ', OPENAI_API_KEY)
 
 class LoginView(auth_views.LoginView):
     template_name = 'chat_app/login.html'
@@ -111,7 +131,7 @@ def start_conversation(request, assignment_id):
         conversation.bot_context = f"You are acting as a customer in the following scenario: {scenario.description}"
         conversation.save()
 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         user_message = request.POST.get('message')
 
         # Save the student's message
@@ -136,7 +156,8 @@ def start_conversation(request, assignment_id):
                 messages.append({"role": "assistant", "content": msg.message})
 
         # Call OpenAI API
-        openai.api_key = settings.OPENAI_API_KEY
+        openai.api_key = OPENAI_API_KEY
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages,

@@ -19,10 +19,16 @@
             <td>{{ assignment.scenario.title }}</td>
             <td>{{ assignment.assigned_by.user.username }}</td>
             <td>
-                {% if assignment.conversation.is_active %}
-                <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-primary">Continue Conversation</a>
+                {% if assignment.conversation_set.exists %}
+                    {% with conversation=assignment.conversation_set.first %}
+                        {% if conversation.is_active %}
+                            <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-primary">Continue Conversation</a>
+                        {% else %}
+                            <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info">View Assessment</a>
+                        {% endif %}
+                    {% endwith %}
                 {% else %}
-                <a href="{% url 'view_assessment' assignment.conversation.id %}" class="btn btn-info">View Assessment</a>
+                    <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-primary">Start Conversation</a>
                 {% endif %}
             </td>
         </tr>

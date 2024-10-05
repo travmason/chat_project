@@ -148,6 +148,7 @@
 
                     alert('There was an error sending your message. Please try again.');
                     console.log('AJAX Error: ' + errmsg);
+                    console.log('AJAX Error: ' + xhr.status + ': ' + xhr.responseText);
                 }
             });
         });

@@ -29,7 +29,7 @@ class Assignment(models.Model):
     is_completed = models.BooleanField(default=False)
 
 class Conversation(models.Model):
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='conversations')
     started_at = models.DateTimeField(auto_now_add=True)
     ended_at = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
