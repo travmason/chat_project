@@ -130,18 +130,15 @@ def start_conversation(request, assignment_id):
     return redirect('chat_conversation', conversation_id=conversation.id)
 
 @login_required
-def chat_conversation(request, assignment_id):
-    assignment = get_object_or_404(Assignment, id=assignment_id)
-    if request.user.userprofile != assignment.student:
+def chat_conversation(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+
+    # Check if the user is authorized
+    if request.user.userprofile != conversation.assignment.student:
         return redirect('dashboard')
 
     if not conversation.is_active:
         return redirect('student_dashboard')
-    
-    # Get or create the conversation
-    conversation, created = Conversation.objects.get_or_create(
-        assignment=assignment, is_active=True
-    )
 
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         user_message = request.POST.get('message')
