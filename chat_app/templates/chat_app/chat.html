@@ -19,6 +19,9 @@
     .bot-message {
         text-align: left;
     }
+    .end-conversation {
+        margin-top: 20px;
+    }
 </style>
 {% endblock %}
 
@@ -41,6 +44,9 @@
         </div>
     </div>
 </form>
+<div class="end-conversation"></div>
+    <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger">End Conversation</a>
+</div>
 {% endblock %}
 
 {% block extra_js %}

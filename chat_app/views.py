@@ -6,7 +6,7 @@ from .tasks import generate_assessment
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, views as auth_views
 from .forms import SignUpForm, ScenarioForm
-from .models import UserProfile, Assignment, Conversation, Message, Scenario
+from .models import UserProfile, Assignment, Conversation, Message, Scenario, Assessment
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -66,7 +66,7 @@ def dashboard(request):
 
 @login_required
 def student_dashboard(request):
-    assignments = Assignment.objects.filter(student=request.user.userprofile)
+    assignments = Assignment.objects.filter(student=request.user.userprofile).prefetch_related('conversations')
     return render(request, 'chat_app/student_dashboard.html', {'assignments': assignments})
 
 @login_required
@@ -120,16 +120,28 @@ def start_conversation(request, assignment_id):
     if request.user.userprofile != assignment.student:
         return redirect('dashboard')
 
+    # Create a new conversation
+    conversation = Conversation.objects.create(
+        assignment=assignment,
+        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.description}"
+    )
+
+    # Redirect to the chat view for the new conversation
+    return redirect('chat_conversation', conversation_id=conversation.id)
+
+@login_required
+def chat_conversation(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+    if request.user.userprofile != assignment.student:
+        return redirect('dashboard')
+
+    if not conversation.is_active:
+        return redirect('student_dashboard')
+    
     # Get or create the conversation
     conversation, created = Conversation.objects.get_or_create(
         assignment=assignment, is_active=True
     )
-
-    # Initialize bot context if conversation is new
-    if created or not conversation.bot_context:
-        scenario = assignment.scenario
-        conversation.bot_context = f"You are acting as a customer in the following scenario: {scenario.description}"
-        conversation.save()
 
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         user_message = request.POST.get('message')
@@ -189,25 +201,31 @@ def start_conversation(request, assignment_id):
 
     return render(request, 'chat_app/chat.html', {'conversation': conversation, 'messages': messages})
 
-
 @login_required
-def end_conversation(request, assignment_id):
-    conversation = get_object_or_404(Conversation, assignment__id=assignment_id, is_active=True)
+def end_conversation(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+
+    # Check if the user is the student associated with the conversation
     if request.user.userprofile != conversation.assignment.student:
         return redirect('dashboard')
 
+    # End the conversation
     conversation.is_active = False
     conversation.ended_at = timezone.now()
     conversation.save()
 
-    # Trigger assessment generation
+    # Trigger assessment generation (asynchronously using Celery)
     generate_assessment.delay(conversation.id)
 
-    return redirect('student_dashboard')
+    # Redirect to the student's dashboard or an assessment page
+    #return redirect('student_dashboard')  # Or redirect to 'view_assessment' if preferred
+    return redirect('view_assessment', conversation_id=conversation.id)  # Or redirect to 'student_dashboard' if preferred
 
 @login_required
 def view_assessment(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
+
+    # Check if the user is authorized to view the assessment
     if request.user.userprofile != conversation.assignment.student:
         return redirect('dashboard')
 
@@ -217,3 +235,4 @@ def view_assessment(request, conversation_id):
         assessment = None
 
     return render(request, 'chat_app/assessment.html', {'assessment': assessment})
+

@@ -46,6 +46,9 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Assessment(models.Model):
-    conversation = models.OneToOneField(Conversation, on_delete=models.CASCADE)
+    conversation = models.OneToOneField(Conversation, on_delete=models.CASCADE, related_name='assessment')
     assessment_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Assessment for Conversation {self.conversation.id}"

@@ -14,29 +14,57 @@
         </tr>
     </thead>
     <tbody>
-        {% for assignment in assignments %}
-        <tr>
-            <td>{{ assignment.scenario.title }}</td>
-            <td>{{ assignment.assigned_by.user.username }}</td>
-            <td>
-                {% if assignment.conversation_set.exists %}
-                    {% with conversation=assignment.conversation_set.first %}
-                        {% if conversation.is_active %}
-                            <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-primary">Continue Conversation</a>
-                        {% else %}
-                            <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info">View Assessment</a>
-                        {% endif %}
-                    {% endwith %}
+        {% if assignments %}
+            {% for assignment in assignments %}
+                <h3>{{ assignment.scenario.title }}</h3>
+                <p>{{ assignment.scenario.description }}</p>
+        
+                <!-- List all conversations related to the assignment -->
+                {% if assignment.conversations.all %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Conversation ID</th>
+                                <th>Started At</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for conversation in assignment.conversations.all %}
+                                <tr>
+                                    <td>{{ conversation.id }}</td>
+                                    <td>{{ conversation.started_at }}</td>
+                                    <td>
+                                        {% if conversation.is_active %}
+                                            Active
+                                        {% else %}
+                                            Ended
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if conversation.is_active %}
+                                            <a href="{% url 'chat_conversation' conversation.id %}" class="btn btn-primary">Continue Conversation</a>
+                                            <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger">End Conversation</a>
+                                        {% else %}
+                                            <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info">View Assessment</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 {% else %}
-                    <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-primary">Start Conversation</a>
+                    <p>No conversations yet.</p>
                 {% endif %}
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No assignments yet.</td>
-        </tr>
-        {% endfor %}
+        
+                <!-- Option to start a new conversation -->
+                <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-success">Start New Conversation</a>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>You have no assignments.</p>
+        {% endif %}
     </tbody>
 </table>
 {% endblock %}

@@ -32,7 +32,8 @@ urlpatterns = [
     path('create_scenario/', views.create_scenario, name='create_scenario'),
     path('assign_scenario/', views.assign_scenario, name='assign_scenario'),
     path('start_conversation/<int:assignment_id>/', views.start_conversation, name='start_conversation'),
-    path('end_conversation/<int:assignment_id>/', views.end_conversation, name='end_conversation'),
+    path('end_conversation/<int:conversation_id>/', views.end_conversation, name='end_conversation'),
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
+    path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
 
 ]

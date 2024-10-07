@@ -5,8 +5,9 @@
 {% block content %}
 <h2>Assessment</h2>
 {% if assessment %}
-<p>{{ assessment.assessment_text }}</p>
+    <p>{{ assessment.assessment_text|linebreaks }}</p>
 {% else %}
-<p>The assessment is not yet available. Please check back later.</p>
+    <p>The assessment is not yet available. Please check back later.</p>
 {% endif %}
+<a href="{% url 'student_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
 {% endblock %}
