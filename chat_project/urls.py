@@ -19,13 +19,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from chat_app.views import CustomLoginView
 from chat_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.dashboard, name='dashboard'),
     path('signup/', views.signup, name='signup'),
-    path('login/', views.LoginView.as_view(), name='login'),
+#    path('login/', views.LoginView.as_view(), name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('student/', views.student_dashboard, name='student_dashboard'),
     path('teacher/', views.teacher_dashboard, name='teacher_dashboard'),
@@ -35,5 +37,6 @@ urlpatterns = [
     path('end_conversation/<int:conversation_id>/', views.end_conversation, name='end_conversation'),
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
+    
 
 ]

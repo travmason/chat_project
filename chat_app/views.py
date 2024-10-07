@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, views as auth_views
 from .forms import SignUpForm, ScenarioForm
 from .models import UserProfile, Assignment, Conversation, Message, Scenario, Assessment
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -166,7 +167,7 @@ def chat_conversation(request, conversation_id):
 
         # Call OpenAI API
 
-        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        response = client.chat.completions.create(model="gpt-4o-mini",
         messages=messages)
 
         bot_reply = response.choices[0].message.content.strip()
@@ -233,3 +234,20 @@ def view_assessment(request, conversation_id):
 
     return render(request, 'chat_app/assessment.html', {'assessment': assessment})
 
+class CustomLoginView(LoginView):
+    template_name = 'chat_app/login.html'
+
+    def get_success_url(self):
+        user = self.request.user
+        try:
+            user_profile = user.userprofile
+            is_teacher = user_profile.is_teacher
+        except UserProfile.DoesNotExist:
+            # Handle the case where UserProfile does not exist
+            # Redirect to a default page or raise an exception
+            return reverse_lazy('student_dashboard')
+
+        if is_teacher:
+            return reverse_lazy('teacher_dashboard')
+        else:
+            return reverse_lazy('student_dashboard')

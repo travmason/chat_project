@@ -28,15 +28,15 @@ def generate_assessment(conversation_id):
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
     DEBUG = env('DEBUG')
     OPENAI_API_KEY = env('OPENAI_API_KEY')
-    
+
     client = OpenAI(api_key=OPENAI_API_KEY)
 
     try:
         # Use ChatCompletion API to generate the assessment
-        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        response = client.chat.completions.create(model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are an assistant that evaluates customer service conversations and provides feedback to the customer service agent."},
-            {"role": "user", "content": f"Please assess the following conversation between a customer and a customer service agent:\n\n{transcript}\n\nProvide detailed feedback on the agent's performance, including strengths and areas for improvement."},
+            {"role": "system", "content": "You are an expert educator that evaluates customer service conversations and provides feedback to the customer service agent."},
+            {"role": "user", "content": f"Please assess the following conversation between a customer and a customer service agent:\n\n{transcript}\n\nProvide detailed feedback on the agent's performance, including strengths and areas for improvement. At the end of the assessment include a score between 0 and 100."},
         ],
         temperature=0.7,
         max_tokens=500)
