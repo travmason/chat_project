@@ -16,15 +16,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from chat_app.views import CustomLoginView
 from chat_app import views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.dashboard, name='dashboard'),
+    path('', views.landing, name='landing'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('signup/', views.signup, name='signup'),
 #    path('login/', views.LoginView.as_view(), name='login'),
     path('login/', CustomLoginView.as_view(), name='login'),
@@ -37,6 +39,5 @@ urlpatterns = [
     path('end_conversation/<int:conversation_id>/', views.end_conversation, name='end_conversation'),
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
-    
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

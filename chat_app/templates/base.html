@@ -1,0 +1,56 @@
+<!-- chat_app/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn By AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Brand on the left -->
+            <a class="navbar-brand" href="{% url 'dashboard' %}">Learn By AI</a>
+            
+            <!-- Collapsed menu items -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item d-flex align-items-center me-2">
+                        <form action="{% url 'logout' %}" method="post" class="dropdown-item">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Toggler on the right -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                    
+        
+        </div>
+    </nav>
+    {% load static %}
+
+    <!-- <div class="container"> -->
+        {% block content %}{% endblock %}
+    <!-- </div> -->
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>    {% block extra_css %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

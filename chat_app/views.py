@@ -64,6 +64,9 @@ def dashboard(request):
         return redirect('teacher_dashboard')
     else:
         return redirect('student_dashboard')
+    
+def landing(request):
+    return render(request, 'index.html')
 
 @login_required
 def student_dashboard(request):
