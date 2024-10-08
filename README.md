@@ -2,7 +2,7 @@
  
 ## TODO
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
-- [ ] Change to AJAX based updates for real time conversation with bot
+- [x] Change to AJAX based updates for real time conversation with bot
 - [ ] Re do system prompt for best response based on latest chat-gpt models
 - [ ] Re skin to look pretty
 - [ ] Migrate to authentication via Cognito
@@ -17,3 +17,8 @@
 - [ ] Marketing materials
 - [ ] Landing page
 - [ ] Payment gateway integration
+- [ ] Student dashboard accordian integration for each assignment
+- [ ] Teacher dashboard accordian integration for each student
+- [ ] 3 Free scenarios for individual freemium trial
+- [ ] Content / curriculium upload and integration to prompt chain
+- [ ] Remaining pages to new look base.html integration
