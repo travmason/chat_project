@@ -7,7 +7,6 @@
     <h2>Welcome, {{ user.username }}</h2>
     <h3>Your Assignments</h3>
             <!-- Assignment Accordion -->
-            <section id="accordian_assignments" class="p-2">
                 <div class="container">
                     <div class="accordion accordion-flush" id="scenarios">
                         {% if assignments %}
@@ -30,7 +29,7 @@
                                 
                                         <!-- List all conversations related to the assignment -->
                                         {% if assignment.conversations.all %}
-                                            <table class="table">
+                                            <table class="table table-striped">
                                                 <thead>
                                                     <tr>
                                                         <th>Conversation ID</th>
@@ -78,7 +77,6 @@
                             <p>You have no assignments.</p>
                         {% endif %}
                 </div>
-            </section>
 </div> <!-- end of page div -->
 {% endblock %}
 

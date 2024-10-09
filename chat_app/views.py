@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.contrib import messages
 from openai import OpenAI
 import environ
 import os
@@ -101,6 +102,7 @@ def assign_scenario(request):
     if request.method == 'POST':
         scenario_id = request.POST.get('scenario_id')
         student_username = request.POST.get('student_username')
+        print(scenario_id, student_username)
         scenario = get_object_or_404(Scenario, id=scenario_id)
         try:
             student_user = User.objects.get(username=student_username)
@@ -116,7 +118,24 @@ def assign_scenario(request):
             return render(request, 'chat_app/assign_scenario.html', {'error': error})
     else:
         scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
-        return render(request, 'chat_app/assign_scenario.html', {'scenarios': scenarios})
+        users = User.objects.filter(userprofile__is_teacher=False)
+        return render(request, 'chat_app/assign_scenario.html', {'scenarios': scenarios, 'users': users})
+
+@login_required
+def unassign_scenario(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+
+    # Ensure that only teachers can unassign scenarios
+    if not request.user.userprofile.is_teacher:
+        messages.error(request, "You do not have permission to unassign this scenario.")
+        return redirect('dashboard')
+
+    if request.method == 'POST':
+        assignment.delete()
+        messages.success(request, "Scenario unassigned successfully.")
+        return redirect('teacher_dashboard')
+
+    return render(request, 'chat_app/unassign_scenario_confirm.html', {'assignment': assignment})
 
 @login_required
 def start_conversation(request, assignment_id):
