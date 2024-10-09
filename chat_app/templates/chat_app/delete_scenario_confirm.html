@@ -1,0 +1,15 @@
+<!-- templates/chat_app/delete_scenario_confirm.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Delete Scenario</h2>
+<p>Are you sure you want to delete the scenario "{{ scenario.title }}"?</p>
+<p><strong>Warning:</strong> This action cannot be undone and will remove all associated assignments and conversations <strong>FROM ALL STUDENTS</strong>.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

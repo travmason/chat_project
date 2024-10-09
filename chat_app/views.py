@@ -117,7 +117,7 @@ def assign_scenario(request):
             error = "Student not found."
             return render(request, 'chat_app/assign_scenario.html', {'error': error})
     else:
-        scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
+        scenarios = Scenario.objects.filter(created_by=request.user.userprofile, is_active=True)
         users = User.objects.filter(userprofile__is_teacher=False)
         return render(request, 'chat_app/assign_scenario.html', {'scenarios': scenarios, 'users': users})
 
@@ -138,6 +138,22 @@ def unassign_scenario(request, assignment_id):
     return render(request, 'chat_app/unassign_scenario_confirm.html', {'assignment': assignment})
 
 @login_required
+def delete_scenario(request, scenario_id):
+    scenario = get_object_or_404(Scenario, id=scenario_id)
+
+    # Ensure that only teachers or admins can delete scenarios
+    if not request.user.userprofile.is_teacher and not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete this scenario. How did you even get here? Cheeky.")
+        return redirect('dashboard')
+
+    if request.method == 'POST':
+        scenario.delete()
+        messages.success(request, "Scenario deleted successfully.")
+        return redirect('scenario_list')
+
+    return render(request, 'chat_app/delete_scenario_confirm.html', {'scenario': scenario})
+
+@login_required
 def start_conversation(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
     if request.user.userprofile != assignment.student:
@@ -146,7 +162,7 @@ def start_conversation(request, assignment_id):
     # Create a new conversation
     conversation = Conversation.objects.create(
         assignment=assignment,
-        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.description}"
+        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.prompt}"
     )
 
     # Redirect to the chat view for the new conversation

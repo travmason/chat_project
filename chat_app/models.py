@@ -16,6 +16,7 @@ class Scenario(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     prompt = models.TextField()
+    is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='scenarios')
     created_at = models.DateTimeField(auto_now_add=True)
 
