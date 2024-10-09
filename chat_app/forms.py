@@ -15,4 +15,4 @@ class SignUpForm(UserCreationForm):
 class ScenarioForm(forms.ModelForm):
     class Meta:
         model = Scenario
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'prompt']
