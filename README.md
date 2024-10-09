@@ -22,7 +22,6 @@
     - [ ] Map
     - [ ] Contact
     - [ ] Rounded corers on cards?
-- [ ] 
 - [ ] Payment gateway integration
 - [ ] Student dashboard accordian integration for each assignment
 - [ ] Teacher dashboard accordian integration for each student
