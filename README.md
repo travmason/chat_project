@@ -2,9 +2,10 @@
  
 ## TODO
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
+- [ ] Create and deploy to eb
 - [x] Change to AJAX based updates for real time conversation with bot
 - [ ] Re do system prompt for best response based on latest chat-gpt models
-- [ ] Re skin to look pretty
+- [ ] Re skin functional pages to look pretty
 - [ ] Migrate to authentication via Cognito
 - [ ] Security assessment
 - [ ] Accessability compliance
@@ -12,19 +13,19 @@
 - [ ] Screenshots and videos
 - [ ] Socials campaign
 - [ ] List potential use cases
-- [ ] Launch landing page
 - [ ] Integrate with paywall
 - [ ] Marketing materials
 - [ ] Landing page
-    - [ ] Structure
+    - [x] Structure
     - [ ] Content
     - [ ] Mailing list
     - [ ] Map
-    - [ ] Contact
-    - [ ] Rounded corers on cards?
+    - [x] Contact
+    - [x] Rounded corers on cards?
+- [ ] Launch landing page
 - [ ] Payment gateway integration
-- [ ] Student dashboard accordian integration for each assignment
-- [ ] Teacher dashboard accordian integration for each student
+- [x] Student dashboard accordian integration for each assignment
+- [x] Teacher dashboard accordian integration for each student
 - [ ] 3 Free scenarios for individual freemium trial
 - [ ] Content / curriculium upload and integration to prompt chain
-- [ ] Remaining pages to new look base.html integration
+- [x] Remaining pages to new look base.html integration
