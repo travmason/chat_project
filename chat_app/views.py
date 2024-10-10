@@ -14,7 +14,6 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
 from openai import OpenAI
 import environ
 import os
@@ -140,7 +139,6 @@ def unassign_scenario(request, assignment_id):
     return render(request, 'chat_app/unassign_scenario_confirm.html', {'assignment': assignment})
 
 @login_required
-@csrf_exempt
 def toggle_scenario(request, scenario_id):
     if request.method == "POST":
         data = json.loads(request.body)
