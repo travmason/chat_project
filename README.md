@@ -13,6 +13,7 @@
 - [ ] Screenshots and videos
 - [ ] Socials campaign
 - [ ] List potential use cases
+    - [ ] Categories like "dealing with staff" and "talking to paitents"
 - [ ] Integrate with paywall
 - [ ] Marketing materials
 - [ ] Landing page
