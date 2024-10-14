@@ -174,7 +174,7 @@ def start_conversation(request, assignment_id):
     # Create a new conversation
     conversation = Conversation.objects.create(
         assignment=assignment,
-        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.prompt}"
+        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.description}"
     )
 
     # Redirect to the chat view for the new conversation

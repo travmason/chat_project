@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_teacher = models.BooleanField(default=False)
+    email = models.EmailField(blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -35,7 +36,7 @@ class Conversation(models.Model):
     started_at = models.DateTimeField(auto_now_add=True)
     ended_at = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    bot_context = models.TextField(blank=True, null=True)  # Add this field
+    bot_context = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Conversation {self.id} for {self.assignment}"
