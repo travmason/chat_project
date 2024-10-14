@@ -1,7 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
+<style> 
+    .lb-dark-purple {
+        color: #fff;
+        background-color: #302746ff;
+    }
+    .lb-celeste {
+        color: #000;
+        background-color: #B0E3E1ff;
+    }
+    .lb-tiffany-blue {
+        color: #000;
+        background-color: #87C9C8ff;
+    }
+    .lb-brown-sugar {
+        color: #000;
+        background-color: #AB705Eff;
+    }
+    .lb-garnet {
+        color: #fff;
+        background-color: #753B3Cff;
+    }
+</style>
 <!-- Introduction Section -->
     <!-- Showcase -->
     <section
@@ -21,7 +42,7 @@
     </section>
 
     <!-- Newsletter -->
-    <section class="bg-primary text-light p-5">
+    <section class="lb-celeste p-5">
     <div class="container">
         <div class="d-md-flex justify-content-between align-items-center">
         <h3 class="mb-3 mb-md-0">Sign Up For Our Newsletter</h3>
@@ -34,11 +55,11 @@
     </div>
     </section>
         <!-- Boxes -->
-        <section class="p-5">
+        <section class="p-5 lb-dark-purple">
             <div class="container">
               <div class="row text-center g-4">
                 <div class="col-md">
-                  <div class="card bg-dark text-light">
+                  <div class="card lb-tiffany-blue">
                     <div class="card-body text-center">
                       <div class="h1 mb-3">
                         <i class="bi bi-laptop"></i>
@@ -53,7 +74,7 @@
                   </div>
                 </div>
                 <div class="col-md">
-                  <div class="card bg-secondary text-light">
+                  <div class="card lb-garnet">
                     <div class="card-body text-center">
                       <div class="h1 mb-3">
                         <i class="bi bi-person-square"></i>
@@ -68,7 +89,7 @@
                   </div>
                 </div>
                 <div class="col-md">
-                  <div class="card bg-dark text-light">
+                  <div class="card lb-tiffany-blue">
                     <div class="card-body text-center">
                       <div class="h1 mb-3">
                         <i class="bi bi-people"></i>
@@ -382,76 +403,8 @@
                     </div>
                   </div>
                 </div>
-      
-                <!-- <div class="col-md-6 col-lg-3">
-                  <div class="card bg-light">
-                    <div class="card-body text-center">
-                      <img
-                        src="https://randomuser.me/api/portraits/men/12.jpg"
-                        class="rounded-circle mb-3"
-                        alt=""
-                      />
-                      <h3 class="card-title mb-3">Steve Smith</h3>
-                      <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
-                      </p>
-                      <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                  </div>
-                </div>
-      
-                <div class="col-md-6 col-lg-3">
-                  <div class="card bg-light">
-                    <div class="card-body text-center">
-                      <img
-                        src="https://randomuser.me/api/portraits/women/12.jpg"
-                        class="rounded-circle mb-3"
-                        alt=""
-                      />
-                      <h3 class="card-title mb-3">Sara Smith</h3>
-                      <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
-                      </p>
-                      <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                      <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
           </section>
-      
-          <!-- Contact & Map -->
-          <section class="p-5">
-            <div class="container">
-              <div class="row g-4">
-                <div class="col-md">
-                  <h2 class="text-center mb-4">Contact Info</h2>
-                  <ul class="list-group list-group-flush lead">
-                    <li class="list-group-item">
-                      <span class="fw-bold">Main Location:</span> Melbourne, Australia
-                    </li>
-                    <li class="list-group-item">
-                      <span class="fw-bold">Enrollment Email:</span>
-                      enroll@learnbyai.com.au
-                    </li>
-                    <li class="list-group-item">
-                      <span class="fw-bold">Student Email:</span>
-                      student@learnbyai.com.au
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md">
-                  <div id="map"></div>
-                </div>
-              </div>
-            </div>
-          </section>
+
   {% endblock %}
