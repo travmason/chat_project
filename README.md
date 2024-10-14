@@ -29,3 +29,6 @@
 - [ ] 3 Free scenarios for individual freemium trial
 - [ ] Content / curriculium upload and integration to prompt chain
 - [x] Remaining pages to new look base.html integration
+- [ ] Bold headings and indented lists in assessment feedback (prompt based or post process text?)
+- [ ] Update prompts from descriptions
+- [ ] Pallette based on landing page image. Teals and Browns

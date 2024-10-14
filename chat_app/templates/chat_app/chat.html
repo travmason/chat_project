@@ -26,6 +26,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container p-5">
 <h2>Conversation with Customer</h2>
 <div id="chat-log">
     {% for message in messages %}
@@ -46,6 +47,7 @@
 </form>
 <div class="end-conversation"></div>
     <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger">End Conversation</a>
+</div>
 </div>
 {% endblock %}
 
