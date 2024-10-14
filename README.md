@@ -32,4 +32,6 @@
 - [x] Remaining pages to new look base.html integration
 - [ ] Bold headings and indented lists in assessment feedback (prompt based or post process text?)
 - [ ] Update prompts from descriptions
-- [ ] Pallette based on landing page image. Teals and Browns
+- [x] Pallette based on landing page image. Teals and Browns
+- [ ] TAFE skills inclusion of role play in any customer facing skills training
+    - [ ] align with funding of skills gap
