@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6j!on=szflxxv#on$635!*_)#unn*v900lc7g0iwxe_aqlt(nd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["rolegenie.ap-southeast-2.elasticbeanstalk.com", "localhost",]
+ALLOWED_HOSTS = ["rolegenie.ap-southeast-2.elasticbeanstalk.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -87,16 +87,28 @@ WSGI_APPLICATION = 'chat_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lbai',
-        'USER': 'chat_user',
-        'PASSWORD': 'Blah1234',
-        'HOST': 'localhost',
-        'PORT': '',
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'lbai',
+            'USER': 'chatuser',
+            'PASSWORD': 'Blah1234',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
 
 
 # Password validation
