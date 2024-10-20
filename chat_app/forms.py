@@ -7,6 +7,7 @@ from .models import Scenario
 
 class SignUpForm(UserCreationForm):
     # is_teacher = forms.BooleanField(required=False, label='Are you a teacher?')
+    is_teacher = False
 
     class Meta:
         model = User

@@ -51,7 +51,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             is_teacher = form.cleaned_data.get('is_teacher')
+            if is_teacher is None:
+                is_teacher = False
             user_profile = user.userprofile
+            user_profile.email = form.cleaned_data.get('email')
             user_profile.is_teacher = is_teacher
             user_profile.save()
             login(request, user)
@@ -295,7 +298,7 @@ class CustomLoginView(LoginView):
         except UserProfile.DoesNotExist:
             # Handle the case where UserProfile does not exist
             # Redirect to a default page or raise an exception
-            return reverse_lazy('student_dashboard')
+            return reverse_lazy('login')
 
         if is_teacher:
             return reverse_lazy('teacher_dashboard')
