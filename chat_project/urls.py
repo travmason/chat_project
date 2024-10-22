@@ -24,7 +24,7 @@ from chat_app import views
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('health/', health_check, name='health_check'),
+    path('health/', views.health_check, name='health_check'),
     path('admin/', admin.site.urls),
     path('', views.landing, name='landing'),
     path('dashboard/', views.dashboard, name='dashboard'),
