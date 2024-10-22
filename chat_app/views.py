@@ -14,6 +14,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
 from openai import OpenAI
 import environ
 import os
@@ -44,6 +46,9 @@ class LoginView(auth_views.LoginView):
 
 class LogoutView(auth_views.LogoutView):
     next_page = 'login'
+
+def health_check(request):
+    return HttpResponse('OK')
 
 def signup(request):
     if request.method == 'POST':
