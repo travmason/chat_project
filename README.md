@@ -2,10 +2,13 @@
  
 ## TODO
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
-- [ ] Create and deploy to eb
+- [x] Create and deploy to eb
 - [x] Change to AJAX based updates for real time conversation with bot
 - [ ] Re do system prompt for best response based on latest chat-gpt models
 - [ ] Re skin functional pages to look pretty
+- [ ] Admin page to allow editing of users and to enable teacher flag per user (admin only auth)
+- [ ] User profile editor (email, bio, details, select free scenarios (one time?))
+- [ ] New user select free scenarios page (3)
 - [ ] Migrate to authentication via Cognito
 - [ ] Security assessment
 - [ ] Accessability compliance
@@ -35,3 +38,5 @@
 - [x] Pallette based on landing page image. Teals and Browns
 - [ ] TAFE skills inclusion of role play in any customer facing skills training
     - [ ] align with funding of skills gap
+- [ ] Set up end-to-end encryption through Load Balancer (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-endtoend.html)
+
