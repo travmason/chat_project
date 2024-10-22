@@ -17,25 +17,27 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f'Group "{group_name}" already exists.')
 
-        # Assign permissions to the Admin group
+        # Assign all permissions to Admin group
         admin_group = Group.objects.get(name='Admin')
-        permissions = Permission.objects.all()
-        admin_group.permissions.set(permissions)
+        all_permissions = Permission.objects.all()
+        admin_group.permissions.set(all_permissions)
         admin_group.save()
         self.stdout.write(self.style.SUCCESS('All permissions assigned to Admin group.'))
 
-        # Define permissions to assign to the Teacher group
-        assignment_content_type = ContentType.objects.get(app_label='chat_project', model='assignment, conversation, message, assessment')
-        teacher_permissions = Permission.objects.filter(content_type=assignment_content_type)
+        # Assign permissions to Teacher group
         teacher_group = Group.objects.get(name='Teacher')
+        teacher_models = ['assignment', 'conversation', 'message', 'assessment']
+        content_types = ContentType.objects.filter(app_label='chat_app', model__in=teacher_models)
+        teacher_permissions = Permission.objects.filter(content_type__in=content_types)
         teacher_group.permissions.set(teacher_permissions)
         teacher_group.save()
-        self.stdout.write('Permissions assigned to Teacher group.')
+        self.stdout.write(self.style.SUCCESS('Permissions assigned to Teacher group.'))
 
-                # Define permissions to assign to the Teacher group
-        assignment_content_type = ContentType.objects.get(app_label='chat_project', model='assignment, scenario, conversation, message, assessment')
-        content_permissions = Permission.objects.filter(content_type=assignment_content_type)
+        # Assign permissions to ContentCreator group
         content_group = Group.objects.get(name='ContentCreator')
+        content_creator_models = ['assignment', 'scenario']
+        content_types = ContentType.objects.filter(app_label='chat_app', model__in=content_creator_models)
+        content_permissions = Permission.objects.filter(content_type__in=content_types)
         content_group.permissions.set(content_permissions)
         content_group.save()
-        self.stdout.write('Permissions assigned to ContentCreator group.')
+        self.stdout.write(self.style.SUCCESS('Permissions assigned to ContentCreator group.'))
