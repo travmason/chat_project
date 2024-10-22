@@ -20,7 +20,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from chat_app.views import CustomLoginView
-from chat_app.views import health_check
 from chat_app import views
 from django.conf.urls.static import static
 
