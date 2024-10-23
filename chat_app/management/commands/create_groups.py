@@ -7,6 +7,8 @@ class Command(BaseCommand):
     help = 'Create user groups and assign permissions.'
 
     def handle(self, *args, **options):
+        self.stdout.write(self.style.NOTICE('Got into create_groups.'))
+
         # Define group names
         group_names = ['Admin', 'Teacher', 'Student', 'ContentCreator']
 
