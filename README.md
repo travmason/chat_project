@@ -1,6 +1,7 @@
 # chat_project
  
 ## TODO
+- [ ] Change signup and User model to email as username
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
 - [x] Create and deploy to eb
 - [x] Change to AJAX based updates for real time conversation with bot
@@ -23,10 +24,10 @@
     - [x] Structure
     - [ ] Content
     - [ ] Mailing list
-    - [ ] Map
+    - [x] Map
     - [x] Contact
     - [x] Rounded corers on cards?
-- [ ] Launch landing page
+- [x] Launch landing page
 - [ ] Payment gateway integration
 - [x] Student dashboard accordian integration for each assignment
 - [x] Teacher dashboard accordian integration for each student
@@ -38,5 +39,5 @@
 - [x] Pallette based on landing page image. Teals and Browns
 - [ ] TAFE skills inclusion of role play in any customer facing skills training
     - [ ] align with funding of skills gap
-- [ ] Set up end-to-end encryption through Load Balancer (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-endtoend.html)
+- [x] Set up end-to-end encryption through Load Balancer (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-endtoend.html)
 
