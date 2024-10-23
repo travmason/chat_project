@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6j!on=szflxxv#on$635!*_)#unn*v900lc7g0iwxe_aqlt(nd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["rolegenie.ap-southeast-2.elasticbeanstalk.com", "172.31.37.84", "172.31.28.125", "localhost", "127.0.0.1", "rolegenie.com.au"]
+ALLOWED_HOSTS = ["rolegenie.ap-southeast-2.elasticbeanstalk.com", "172.31.28.125", "13.236.135.16", "localhost", "127.0.0.1", "rolegenie.com.au"]
 
 # Application definition
 
