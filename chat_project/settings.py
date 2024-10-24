@@ -91,7 +91,7 @@ if 'RDS_DB_NAME' in os.environ:
             'file': {
                 'level': 'WARN',
                 'class': 'logging.FileHandler',
-                'filename': '/var/app/current/logs/deployment.log',
+                'filename': '/var/log/rolegenie/deployment.log',
             },
             'console': {
                 'level': 'WARN',
