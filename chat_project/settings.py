@@ -83,24 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'chat_project.wsgi.application'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
-
 if 'RDS_DB_NAME' in os.environ:
     LOGGING = {
         'version': 1,
@@ -109,11 +91,12 @@ if 'RDS_DB_NAME' in os.environ:
             'file': {
                 'level': 'WARN',
                 'class': 'logging.FileHandler',
-                'filename': '/var/log/django/deployment.log',
+                'filename': '/var/app/current/logs/deployment.log',
             },
             'console': {
                 'level': 'WARN',
                 'class': 'logging.StreamHandler',
+                'stream': 'ext://sys.stdout',
             },
         },
         'loggers': {
