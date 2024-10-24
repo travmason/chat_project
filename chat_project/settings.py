@@ -89,24 +89,24 @@ if 'RDS_DB_NAME' in os.environ:
         'disable_existing_loggers': False,
         'handlers': {
             'file': {
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'class': 'logging.FileHandler',
                 'filename': '/var/log/django/deployment.log',
             },
             'console': {
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'class': 'logging.StreamHandler',
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['file', 'console'],
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'propagate': True,
             },
             'chat_project': {  # This should match the name of your app
                 'handlers': ['file', 'console'],
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'propagate': True,
             },
         },
@@ -117,24 +117,24 @@ else:
         'disable_existing_loggers': False,
         'handlers': {
             'file': {
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'class': 'logging.FileHandler',
                 'filename': 'deployment.log',
             },
             'console': {
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'class': 'logging.StreamHandler',
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['file', 'console'],
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'propagate': True,
             },
             'chat_project': {  # This should match the name of your app
                 'handlers': ['file', 'console'],
-                'level': 'DEBUG',
+                'level': 'WARN',
                 'propagate': True,
             },
         },
