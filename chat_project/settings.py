@@ -91,7 +91,7 @@ if 'RDS_DB_NAME' in os.environ:
             'console': {
                 'level': 'WARN',
                 'class': 'logging.StreamHandler',
-                'stream': 'ext://sys.stdout',
+                # 'stream': 'ext://sys.stdout',
             },
         },
         'loggers': {
