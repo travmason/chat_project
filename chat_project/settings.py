@@ -96,12 +96,12 @@ if 'RDS_DB_NAME' in os.environ:
         },
         'loggers': {
             'django': {
-                'handlers': ['file', 'console'],
+                'handlers': ['console'],
                 'level': 'WARN',
                 'propagate': True,
             },
             'chat_project': {  # This should match the name of your app
-                'handlers': ['file', 'console'],
+                'handlers': ['console'],
                 'level': 'WARN',
                 'propagate': True,
             },
