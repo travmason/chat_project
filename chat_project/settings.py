@@ -88,11 +88,6 @@ if 'RDS_DB_NAME' in os.environ:
         'version': 1,
         'disable_existing_loggers': False,
         'handlers': {
-            'file': {
-                'level': 'WARN',
-                'class': 'logging.FileHandler',
-                'filename': '/var/log/django/deployment.log',
-            },
             'console': {
                 'level': 'WARN',
                 'class': 'logging.StreamHandler',
