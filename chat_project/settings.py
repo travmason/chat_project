@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6j!on=szflxxv#on$635!*_)#unn*v900lc7g0iwxe_aqlt(nd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.31.26.29", "awseb--AWSEB-G9zl5p8lOrie-1643576833.ap-southeast-2.elb.amazonaws.com","rolegenie.ap-southeast-2.elasticbeanstalk.com", "54.206.232.238", "172.31.28.125", "172.31.5.244", "localhost", "127.0.0.1", "rolegenie.com.au", "ec2-54-206-232-238.ap-southeast-2.compute.amazonaws.com", "ec2-3-27-59-191.ap-southeast-2.compute.amazonaws.com"]
+ALLOWED_HOSTS = ["172.31.26.29", "ec2-3-26-5-179.ap-southeast-2.compute.amazonaws.com", "awseb--AWSEB-G9zl5p8lOrie-1643576833.ap-southeast-2.elb.amazonaws.com","rolegenie.ap-southeast-2.elasticbeanstalk.com", "54.206.232.238", "172.31.28.125", "172.31.5.244", "localhost", "127.0.0.1", "rolegenie.com.au", "ec2-54-206-232-238.ap-southeast-2.compute.amazonaws.com", "ec2-3-27-59-191.ap-southeast-2.compute.amazonaws.com"]
 
 # Application definition
 
