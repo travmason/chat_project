@@ -173,6 +173,9 @@ def delete_scenario(request, scenario_id):
 
     return render(request, 'chat_app/delete_scenario_confirm.html', {'scenario': scenario})
 
+def onetimetrial(request):
+    return render(request, 'chat_app/trial.html')
+
 @login_required
 def start_conversation(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
