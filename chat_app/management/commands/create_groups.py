@@ -14,7 +14,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.NOTICE('Got into create_groups.'))
 
             # Define group names
-            group_names = ['Admin', 'Teacher', 'Student', 'ContentCreator']
+            group_names = ['Admin', 'Teacher', 'Student', 'ContentCreator', 'Guest']
 
             # Create groups
             for group_name in group_names:
@@ -60,8 +60,8 @@ class Command(BaseCommand):
 
             # Assign permissions to ContentCreator group
             try:
-                content_group = Group.objects.get(name='ContentCreator')
-                content_creator_models = ['assignment', 'scenario']
+                content_group = Group.objects.get(name='Guest')
+                content_creator_models = ['conversation', 'message', 'assessment']
                 content_types = ContentType.objects.filter(app_label='chat_app', model__in=content_creator_models)
                 content_permissions = Permission.objects.filter(content_type__in=content_types)
                 content_group.permissions.set(content_permissions)
@@ -73,6 +73,22 @@ class Command(BaseCommand):
             except Exception as e:
                 logger.error(f"Failed to assign permissions to ContentCreator group: {e}")
                 self.stdout.write(self.style.ERROR(f"Failed to assign permissions to ContentCreator group: {e}"))
+
+            # Assign permissions to Guest group
+            try:
+                guest_group = Group.objects.get(name='Guest')
+                guest_models = ['assignment', 'scenario']
+                guest_types = ContentType.objects.filter(app_label='chat_app', model__in=guest_models)
+                guest_permissions = Permission.objects.filter(content_type__in=guest_types)
+                guest_group.permissions.set(guest_permissions)
+                guest_group.save()
+                self.stdout.write(self.style.SUCCESS('Permissions assigned to Guest group.'))
+            except ObjectDoesNotExist as e:
+                logger.error(f"Guest group or related permissions not found: {e}")
+                self.stdout.write(self.style.ERROR(f"Guest group or related permissions not found: {e}"))
+            except Exception as e:
+                logger.error(f"Failed to assign permissions to Guest group: {e}")
+                self.stdout.write(self.style.ERROR(f"Failed to assign permissions to Guest group: {e}"))
 
         except Exception as e:
             logger.critical(f"Unhandled exception in create_groups command: {e}", exc_info=True)
