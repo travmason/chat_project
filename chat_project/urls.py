@@ -35,6 +35,7 @@ urlpatterns = [
     path('teacher/', views.teacher_dashboard, name='teacher_dashboard'),
     path('create_scenario/', views.create_scenario, name='create_scenario'),
     path('assign_scenario/', views.assign_scenario, name='assign_scenario'),
+    path('delete_scenario/<int:scenario_id>/', views.delete_scenario, name='delete_scenario'),
     path('toggle_scenario/<int:scenario_id>/', views.toggle_scenario, name='toggle_scenario'),
     path('unassign_scenario/<int:assignment_id>/', views.unassign_scenario, name='unassign_scenario'),
     path('demo/', views.start_conversation, name='start_conversation'),
