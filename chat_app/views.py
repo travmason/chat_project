@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django_ratelimit.decorators import ratelimit
 
 from openai import OpenAI
 import environ
@@ -192,6 +193,7 @@ def start_conversation(request, assignment_id):
     return redirect('chat_conversation', conversation_id=conversation.id)
 
 @login_required
+@ratelimit(key='ip', rate='1/m', block=True)
 def chat_conversation(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
 
