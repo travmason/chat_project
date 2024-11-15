@@ -192,8 +192,9 @@ def start_conversation(request, assignment_id):
     # Redirect to the chat view for the new conversation
     return redirect('chat_conversation', conversation_id=conversation.id)
 
+get_rate = lambda r: '20/m' if r.user.is_authenticated else '5/m'
 @login_required
-@ratelimit(key='ip', rate='1/m', block=True)
+@ratelimit(key='ip', rate=get_rate, method=ratelimit.UNSAFE, block=True)
 def chat_conversation(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
 
