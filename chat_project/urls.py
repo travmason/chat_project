@@ -38,10 +38,12 @@ urlpatterns = [
     path('delete_scenario/<int:scenario_id>/', views.delete_scenario, name='delete_scenario'),
     path('toggle_scenario/<int:scenario_id>/', views.toggle_scenario, name='toggle_scenario'),
     path('unassign_scenario/<int:assignment_id>/', views.unassign_scenario, name='unassign_scenario'),
-    path('demo/', views.start_conversation, name='start_conversation'),
     path('start_conversation/<int:assignment_id>/', views.start_conversation, name='start_conversation'),
     path('end_conversation/<int:conversation_id>/', views.end_conversation, name='end_conversation'),
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Set the custom handler for rate limiting (403 error)
+handler403 = 'your_project.views.handler403'

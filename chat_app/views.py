@@ -14,8 +14,9 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django_ratelimit.decorators import ratelimit
+from ratelimit.exceptions import Ratelimited
 
 from openai import OpenAI
 import environ
@@ -50,6 +51,11 @@ class LogoutView(auth_views.LogoutView):
 
 def health_check(request):
     return HttpResponse('OK')
+
+def handler403(request, exception=None):
+    if isinstance(exception, Ratelimited):
+        return HttpResponse('Sorry you are blocked', status=429)
+    return HttpResponseForbidden('Forbidden')
 
 def signup(request):
     if request.method == 'POST':
