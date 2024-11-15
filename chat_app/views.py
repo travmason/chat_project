@@ -200,8 +200,12 @@ def start_conversation(request, assignment_id):
 
 get_rate = lambda r: '20/m' if r.user.is_authenticated else '5/m'
 @login_required
-@ratelimit(key='ip', rate=get_rate, method=ratelimit.UNSAFE, block=True)
+@ratelimit(key='ip', rate=get_rate, method=ratelimit.UNSAFE, block=False)
 def chat_conversation(request, conversation_id):
+    was_limited = getattr(request, 'limited', False)
+    if was_limited:
+        return JsonResponse({'error': 'try again in 1 minute'}, status=429)
+
     conversation = get_object_or_404(Conversation, id=conversation_id)
 
     # Check if the user is authorized
