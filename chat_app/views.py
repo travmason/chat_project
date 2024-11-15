@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseForbidden
 from django_ratelimit.decorators import ratelimit
-from ratelimit.exceptions import Ratelimited
+# from ratelimit.exceptions import Ratelimited
 
 from openai import OpenAI
 import environ
@@ -198,13 +198,37 @@ def start_conversation(request, assignment_id):
     # Redirect to the chat view for the new conversation
     return redirect('chat_conversation', conversation_id=conversation.id)
 
-get_rate = lambda r: '20/m' if r.user.is_authenticated else '5/m'
+get_rate = lambda g, r: '20/m' if r.user.is_authenticated else '5/m'
 @login_required
 @ratelimit(key='ip', rate=get_rate, method=ratelimit.UNSAFE, block=False)
 def chat_conversation(request, conversation_id):
     was_limited = getattr(request, 'limited', False)
     if was_limited:
-        return JsonResponse({'error': 'try again in 1 minute'}, status=429)
+        conversation = get_object_or_404(Conversation, id=conversation_id)
+
+        # here we want to set up the bot_reply message to just be a static message saying that the user is rate limited
+        bot_message = Message.objects.create(
+            conversation=conversation,
+            sender=None,  # No sender for bot
+            sender_name='Customer',
+            message="You are sending messages too quickly. Please wait a minute before sending another message."
+        )
+
+
+        # Prepare JSON response
+        data = {
+            'student_message': {
+                'sender_name': "Mr Speedy",
+                'message': "I'm typing too fast!",
+            },
+            'bot_reply': {
+                'sender_name': bot_message.sender_name,
+                'message': bot_message.message,
+            }
+        }
+
+        return JsonResponse(data)
+        # return JsonResponse({'error': 'try again in 1 minute'}, status=429)
 
     conversation = get_object_or_404(Conversation, id=conversation_id)
 

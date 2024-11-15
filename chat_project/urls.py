@@ -20,6 +20,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from chat_app.views import CustomLoginView
+from chat_app.views import handler403  # Import the custom handler for rate limiting
 from chat_app import views
 from django.conf.urls.static import static
 
@@ -46,4 +47,4 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Set the custom handler for rate limiting (403 error)
-handler403 = 'your_project.views.handler403'
+handler403 = 'chat_app.views.handler403'
