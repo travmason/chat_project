@@ -2,7 +2,9 @@
 
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
+{% block title %}Sign Up{% endblock %}
 {% block content %}
 <section class="vh-50">
     <div class="container py-5 h-100">
@@ -19,6 +21,7 @@
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
         </div>
+        <a href="{% provider_login_url 'google' %}">Login with Google</a>
       </div>
     </div>
   </section>

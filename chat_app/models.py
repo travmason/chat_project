@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_teacher = models.BooleanField(default=False)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=False)
     bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
