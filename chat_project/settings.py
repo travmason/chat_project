@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     "chat_app.middleware.AutoLoginAsGuestMiddleware",
 ]
 
@@ -169,6 +170,7 @@ else:
         }
     }
 
+AUTH_USER_MODEL = 'chat_app.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

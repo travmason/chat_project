@@ -2,16 +2,29 @@
 # chat_app/models.py
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+
+    # Remove the username field
+    username = None
+
+    # Use email as the username field
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []  # Remove `username` from required fields
+
+    def __str__(self):
+        return self.email
+
+# Update your UserProfile to use CustomUser
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     is_teacher = models.BooleanField(default=False)
-    email = models.EmailField(blank=True, null=False)
     bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
 class Scenario(models.Model):
     title = models.CharField(max_length=255)
