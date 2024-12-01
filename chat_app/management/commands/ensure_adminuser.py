@@ -6,8 +6,8 @@ class Command(BaseCommand):
     help = "Creates an admin user non-interactively if it doesn't exist"
 
     def add_arguments(self, parser):
-        parser.add_argument('--username', help="Admin's username")
-        parser.add_argument('--email', help="Admin's email")
+        # parser.add_argument('--username', help="Admin's username")
+        parser.add_argument('--email', help="Admin's email and username")
         parser.add_argument('--password', help="Admin's password")
         parser.add_argument('--no-input', help="Read options from the environment",
                             action='store_true')
@@ -16,12 +16,12 @@ class Command(BaseCommand):
         User = get_user_model()
 
         if options['no_input']:
-            options['username'] = os.environ['DJANGO_SUPERUSER_USERNAME']
+            # options['username'] = os.environ['DJANGO_SUPERUSER_USERNAME']
             options['email'] = os.environ['DJANGO_SUPERUSER_EMAIL']
             options['password'] = os.environ['DJANGO_SUPERUSER_PASSWORD']
 
-        if not User.objects.filter(username=options['username']).exists():
-            User.objects.create_superuser(username=options['username'],
+        if not User.objects.filter(username=options['email']).exists():
+            User.objects.create_superuser(username=options['email'],
                                           email=options['email'],
                                           password=options['password'])
             self.stdout.write(self.style.SUCCESS('Admin user created.'))
