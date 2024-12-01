@@ -2,6 +2,7 @@
 # chat_app/models.py
 
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 
 class CustomUserManager(BaseUserManager):
@@ -44,7 +45,7 @@ class CustomUser(AbstractUser):
 
 # Update your UserProfile to use CustomUser
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_teacher = models.BooleanField(default=False)
     bio = models.TextField(blank=True, null=True)
 
