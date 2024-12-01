@@ -20,7 +20,7 @@ class Command(BaseCommand):
             options['email'] = os.environ['DJANGO_SUPERUSER_EMAIL']
             options['password'] = os.environ['DJANGO_SUPERUSER_PASSWORD']
 
-        if not User.objects.filter(username=options['email']).exists():
+        if not User.objects.filter(email=options['email']).exists():
             User.objects.create_superuser(email=options['email'],
                                           password=options['password'])
             self.stdout.write(self.style.SUCCESS('Admin user created.'))
