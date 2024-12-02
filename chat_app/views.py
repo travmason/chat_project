@@ -9,6 +9,7 @@ from .forms import SignUpForm, ScenarioForm
 from .models import UserProfile, Assignment, Conversation, Message, Scenario, Assessment
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -61,16 +62,28 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            is_teacher = form.cleaned_data.get('is_teacher')
-            if is_teacher is None:
-                is_teacher = False
-            user_profile = user.userprofile
-            user_profile.email = form.cleaned_data.get('email')
+            # Save the new user to the database
+            new_user = form.save()
+            # Retrieve additional data from the form
+            is_teacher = form.cleaned_data.get('is_teacher', False)
+            email = form.cleaned_data.get('email')
+            # Update the UserProfile
+            user_profile = new_user.userprofile
+            user_profile.email = email
             user_profile.is_teacher = is_teacher
             user_profile.save()
-            login(request, user)
-            return redirect('dashboard')
+            # Authenticate the user
+            raw_password = form.cleaned_data.get('password1')
+            authenticated_user = authenticate(request, email=email, password=raw_password)
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                return redirect('dashboard')
+            else:
+                # Handle authentication failure
+                return render(request, 'chat_app/signup.html', {
+                    'form': form,
+                    'error': 'Authentication failed. Please try again.',
+                })
     else:
         form = SignUpForm()
     return render(request, 'chat_app/signup.html', {'form': form})
