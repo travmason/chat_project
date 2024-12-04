@@ -1,10 +1,11 @@
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:w="urn:schemas-microsoft-com:office:word"
-xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
-xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
-xmlns="http://www.w3.org/TR/REC-html40">
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
 
-<head>
+{% block title %}Sign Up{% endblock %}
+
+
+{% block head %}
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 15">
@@ -1062,11 +1063,13 @@ ul
 	mso-fareast-language:EN-US;}
 </style>
 <![endif]-->
-</head>
 
-<body lang=EN-AU style='tab-interval:36.0pt;word-wrap:break-word'>
+{% endblock head %}
 
-<div class=WordSection1>
+
+{% block content %}
+
+<div class=WordSection1 style='tab-interval:36.0pt;word-wrap:break-word'>
 
 <h1 align=center style='margin-top:4.3pt;margin-right:.55pt;margin-bottom:0cm;
 margin-left:0cm;margin-bottom:.0001pt;text-align:center;text-indent:0cm'><span
@@ -1741,6 +1744,4 @@ style='color:windowtext;text-decoration:none;text-underline:none'>privacy@rolege
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}

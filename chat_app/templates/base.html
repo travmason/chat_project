@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <title>Role Genie</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}"" rel="stylesheet">
     <script defer src="{% static 'js/app.js' %}"></script>
+    {% endblock head %}
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
