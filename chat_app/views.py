@@ -50,6 +50,9 @@ class LoginView(auth_views.LoginView):
 class LogoutView(auth_views.LogoutView):
     next_page = 'login'
 
+def privacy(request):
+    return render(request, 'chat_app/privacy.html')
+
 def health_check(request):
     return HttpResponse('OK')
 
