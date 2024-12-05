@@ -179,6 +179,16 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Or 'mandatory' or 'none' based on your preference
 
+# Redirects to the specified URL after login
+LOGIN_REDIRECT_URL = '/dashboard/'
+# Redirects to the specified URL after logout
+LOGOUT_REDIRECT_URL = '/'
+# Allauth-specific settings
+ACCOUNT_LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+# Redirect after successful signup
+ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
