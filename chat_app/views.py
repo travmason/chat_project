@@ -53,6 +53,9 @@ class LogoutView(auth_views.LogoutView):
 def privacy(request):
     return render(request, 'chat_app/privacy.html')
 
+def tos(request):
+    return render(request, 'chat_app/tos.html')
+
 def health_check(request):
     return HttpResponse('OK')
 
