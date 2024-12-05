@@ -172,6 +172,13 @@ else:
 
 AUTH_USER_MODEL = 'chat_app.CustomUser'
 
+# Tell allauth to use email as the username field
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Or 'mandatory' or 'none' based on your preference
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
