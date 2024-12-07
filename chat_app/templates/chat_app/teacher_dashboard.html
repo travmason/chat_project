@@ -28,7 +28,8 @@
                 <td>{{ scenario.created_at }}</td>
                 <td>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="scenarioSwitch{{ scenario.id }}" 
+                        <input class="form-check-input" type="checkbox" role="switch" id="scenarioSwitch{{ scenario.id }}"
+                            {% if scenario.active %}checked{% endif %}
                             onchange="toggleScenario({{ scenario.id }}, this.checked)">
                         <label class="form-check-label" for="scenarioSwitch{{ scenario.id }}">Activate/Deactivate Scenario</label>
                     </div>
