@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -43,6 +43,9 @@ OPENAI_API_KEY = env('OPENAI_API_KEY')
 
 # create OpenAI client object
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+#Grab the User using get_user_model() instead of importing the User model directly. This is a best practice where a custom user model is in use.
+User = get_user_model()
 
 class LoginView(auth_views.LoginView):
     template_name = 'chat_app/login.html'
