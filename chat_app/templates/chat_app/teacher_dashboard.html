@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Welcome, {{ if user.username user.username else user.email }}</h2>
+    <h2>Welcome, {{ user.username|default:user.email }}</h2>
     <a href="{% url 'create_scenario' %}" class="btn btn-success">Create Scenario</a>
     <a href="{% url 'assign_scenario' %}" class="btn btn-info">Assign Scenario</a>
 
