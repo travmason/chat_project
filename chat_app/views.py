@@ -3,6 +3,8 @@
 
 from .tasks import generate_assessment
 
+
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, views as auth_views
 from .forms import SignUpForm, ScenarioForm
@@ -178,13 +180,24 @@ def unassign_scenario(request, assignment_id):
 @login_required
 def toggle_scenario(request, scenario_id):
     if request.method == "POST":
-        data = json.loads(request.body)
-        active = data.get('active', False)
-        scenario = Scenario.objects.get(pk=scenario_id)
-        scenario.active = active
-        scenario.save()
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False}, status=400)
+        try:
+            # Parse the JSON body
+            data = json.loads(request.body)
+            active = data.get('active', False)
+
+            # Fetch the scenario
+            scenario = get_object_or_404(Scenario, pk=scenario_id)
+
+            # Update the active status
+            scenario.active = active
+            scenario.save()
+
+            return JsonResponse({'success': True})
+        except Exception as e:
+            # Log the exception for debugging
+            print(f"Error toggling scenario: {e}")
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'success': False, 'error': 'Invalid request method.'}, status=400)
 
 @login_required
 def delete_scenario(request, scenario_id):
