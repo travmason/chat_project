@@ -268,7 +268,7 @@ def chat_conversation(request, conversation_id):
         student_message = Message.objects.create(
             conversation=conversation,
             sender=request.user.userprofile,
-            sender_name=request.user.username,
+            sender_name=request.user.email,
             message=user_message
         )
 
