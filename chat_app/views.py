@@ -143,7 +143,7 @@ def assign_scenario(request):
         print(scenario_id, student_username)
         scenario = get_object_or_404(Scenario, id=scenario_id)
         try:
-            student_user = User.objects.get(username=student_username)
+            student_user = User.objects.get(email=student_username)
             student_profile = student_user.userprofile
             Assignment.objects.create(
                 scenario=scenario,
