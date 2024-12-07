@@ -22,7 +22,7 @@
             <label for="student_username">Student Username</label>
             <select class="form-control" name="student_username" id="student_username">
                 {% for user in users %}
-                <option value="{{ user.username }}">{{ user.username }}</option>
+                <option value="{{ user.email }}">{{ user.email }}</option>
                 {% endfor %}
             </select>
             <!-- <input type="text" class="form-control" name="student_username" id="student_username" required> -->
