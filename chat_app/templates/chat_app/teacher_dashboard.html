@@ -32,6 +32,81 @@
                             onchange="toggleScenario({{ scenario.id }})">
                         <label class="form-check-label" for="scenarioSwitch{{ scenario.id }}">Activate/Deactivate Scenario</label>
                     </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="scenarioSwitch{{ scenario.id }}" 
+                            onchange="toggleScenario({{ scenario.id }}, this.checked)">
+                        <label class="form-check-label" for="scenarioSwitch{{ scenario.id }}">Activate/Deactivate Scenario</label>
+                    </div>
+                    
+                    <script>
+                        function toggleScenario(scenarioId, isActive) {
+                            fetch(`/toggle-scenario/${scenarioId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': getCookie('csrftoken'), // Ensure CSRF token is sent
+                                },
+                                body: JSON.stringify({ active: isActive })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    showNotification('Scenario toggled successfully.', 'success');
+                                } else {
+                                    showNotification('Failed to toggle scenario.', 'danger');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                showNotification('An error occurred while toggling the scenario.', 'danger');
+                            });
+                        }
+                    
+                        function getCookie(name) {
+                            let cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                const cookies = document.cookie.split(';');
+                                for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.startsWith(name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+                    
+                        function showNotification(message, type) {
+                            // Remove existing notifications
+                            const existingAlert = document.querySelector('.notification-alert');
+                            if (existingAlert) {
+                                existingAlert.remove();
+                            }
+                    
+                            // Create a new notification
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = `alert alert-${type} notification-alert alert-dismissible fade show`;
+                            alertDiv.role = 'alert';
+                            alertDiv.innerHTML = `
+                                ${message}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            `;
+                    
+                            // Insert the notification at the top of the page
+                            const body = document.body;
+                            body.insertAdjacentElement('afterbegin', alertDiv);
+                    
+                            // Automatically remove the notification after 5 seconds
+                            setTimeout(() => {
+                                if (alertDiv) {
+                                    alertDiv.classList.remove('show');
+                                    setTimeout(() => alertDiv.remove(), 150); // Allow fade-out to complete
+                                }
+                            }, 5000);
+                        }
+                    </script>
                     
                     <!-- <a href="{% url 'delete_scenario' scenario.id %}" class="btn btn-danger">Delete</a> -->
                 </td>
