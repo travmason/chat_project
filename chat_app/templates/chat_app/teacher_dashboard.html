@@ -59,7 +59,7 @@
             {% for assignment in assignments %}
             <tr>
                 <td>{{ assignment.scenario.title }}</td>
-                <td>{{ assignment.student.user.username }}</td>
+                <td>{{ assignment.student.user.email }}</td>
                 <td>{{ assignment.assigned_at }}</td>
                 <td>{{ assignment.is_completed|yesno:"Completed,Pending" }}</td>
                 <td>
