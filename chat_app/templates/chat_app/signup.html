@@ -123,6 +123,8 @@
         </div>
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <h2>Sign Up</h2>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            <p>Or sign up with Google, or email and password</p>
             <form action="{% provider_login_url 'google' %}" method="get" style="display: inline;">
               <button type="submit" class="gsi-material-button">
                 <div class="gsi-material-button-state"></div>
@@ -141,6 +143,7 @@
                 </div>
               </button>
             </form>
+            <p>Or</p>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
