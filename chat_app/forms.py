@@ -13,6 +13,7 @@ class CustomSignupForm(SignupForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
+            Field('Name', css_class='form-control', wrapper_class='form-group', placeholder='Enter your name'),
             Field('email'),
             Field('password1', css_class='form-control', wrapper_class='form-group', placeholder='Enter your password'),
             Field('password2', css_class='form-control', wrapper_class='form-group', placeholder='Confirm your password'),
