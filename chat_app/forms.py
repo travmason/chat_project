@@ -3,14 +3,22 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
-from django.contrib.auth.models import User
 from .models import Scenario
 from allauth.account.forms import SignupForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Submit
 
 class CustomSignupForm(SignupForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Remove the help text, but keep validators intact
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Field('email'),
+            Field('password1', css_class='form-control', wrapper_class='form-group', placeholder='Enter your password'),
+            Field('password2', css_class='form-control', wrapper_class='form-group', placeholder='Confirm your password'),
+            Submit('signup', 'Sign up', css_class='btn btn-primary')
+        )
+        # Remove help texts
         self.fields['password1'].help_text = None
         self.fields['password2'].help_text = None
 
