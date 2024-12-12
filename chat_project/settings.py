@@ -210,6 +210,8 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomSignupForm'}
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE' : [
