@@ -210,7 +210,7 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
-ACCOUNT_FORMS = {'signup': 'chat_app.CustomSignupForm'}
+ACCOUNT_FORMS = {'signup': 'chat_app.forms.CustomSignupForm'}
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
