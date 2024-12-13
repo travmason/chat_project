@@ -15,8 +15,8 @@ class CustomSignupForm(SignupForm):
         self.helper.layout = Layout(
             Field('Name', css_class='form-control', wrapper_class='form-group', placeholder='Enter your name'),
             Field('email'),
-            Field('password1', css_class='form-control', wrapper_class='form-group', placeholder='Enter your password'),
-            Field('password2', css_class='form-control', wrapper_class='form-group', placeholder='Confirm your password'),
+            Field('password1', css_class='form-control', wrapper_class='form-group', placeholder='Enter your password', help_text=None),
+            Field('password2', css_class='form-control', wrapper_class='form-group', placeholder='Confirm your password', help_text=None),
             Submit('signup', 'Sign up', css_class='btn btn-primary')
         )
         # Remove help texts
