@@ -31,6 +31,12 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    help_texts = {
+            'email': None,
+            'password1': None,
+            'password2': None,
+        }
+
     # Remove the username field
     username = None
     # Assign the custom user manager to objects
