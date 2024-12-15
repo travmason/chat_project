@@ -182,6 +182,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Or 'mandatory' or 'none' based on your preference
 
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
 # Redirects to the specified URL after login
 LOGIN_REDIRECT_URL = '/dashboard/'
 # Redirects to the specified URL after logout
