@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <h2>Login</h2>
-            <a href="{% provider_login_url 'google' %}">Google</a>
+            <a href="{% provider_login_url 'google' %}">Make this the google button</a>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
