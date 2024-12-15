@@ -7,7 +7,7 @@ from .tasks import generate_assessment
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, views as auth_views
-from .forms import SignUpForm, ScenarioForm
+from .forms import SignUpForm, ScenarioForm, CustomSignupForm
 from .models import UserProfile, Assignment, Conversation, Message, Scenario, Assessment
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -71,7 +71,7 @@ def handler403(request, exception=None):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = CustomSignupForm(request.POST)
         if form.is_valid():
             # Save the new user to the database
             new_user = form.save()
@@ -96,7 +96,7 @@ def signup(request):
                     'error': 'Authentication failed. Please try again.',
                 })
     else:
-        form = SignUpForm()
+        form = CustomSignupForm()
     return render(request, 'chat_app/signup.html', {'form': form})
 
 @login_required

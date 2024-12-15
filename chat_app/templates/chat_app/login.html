@@ -18,10 +18,8 @@
                 data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
                 data-context="signin"
                 data-ux_mode="popup"
-                data-auto_select="true"
                 data-itp_support="true">
             </div>
-
             <div class="g_id_signin"
                 data-type="standard"
                 data-shape="pill"
@@ -81,7 +79,7 @@
         .then(res => {
           if (res.ok) {
             // handle successful authentication, e.g. redirect
-            window.location.href = "/";
+            window.location.href = "/dashboard";
           } else {
             // handle errors
             console.log("Login failed.", res.statusText);
