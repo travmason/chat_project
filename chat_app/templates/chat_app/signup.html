@@ -19,7 +19,24 @@
             <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
             <div class="separator">or</div>
             <div class="container d-flex justify-content-between align-items-center">
-              <a href="{% provider_login_url 'google' %}"</a>
+              <div id="g_id_onload"
+                  data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
+                  data-context="signin"
+                  data-ux_mode="popup"
+                  data-login_uri="https://rolegenie.com.au/accounts/google/login/"
+                  data-auto_select="true"
+                  data-itp_support="true">
+              </div>
+
+              <div class="g_id_signin"
+                  data-type="standard"
+                  data-shape="pill"
+                  data-theme="outline"
+                  data-text="signup_with"
+                  data-size="large"
+                  data-logo_alignment="center"
+                  data-width="400">
+              </div>
             </div>
             <div class="separator">or</div>
             <form method="post">
