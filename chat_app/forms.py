@@ -18,7 +18,7 @@ class CustomLoginForm(LoginForm):
             self.fields['password'].help_text = ''
 
         # Add custom classes, placeholders, etc.
-        self.fields['login'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Username or Email'})
+        self.fields['login'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
         self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
 
 class CustomSignupForm(SignupForm):

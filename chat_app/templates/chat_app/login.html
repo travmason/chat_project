@@ -55,13 +55,16 @@
         break;
       }
     }
+    console.log('cookieValue: ', cookieValue);
     return cookieValue;
   }
 
   const csrftoken = getCookie('csrftoken');
+  console.log('csrftoken: ', csrftoken);
 
   function handleCredentialResponse(response) {
     const id_token = response.credential;
+    console.log('made it into handleCredential: ', id_token);
     fetch('/accounts/google/login/', {
       method: 'POST',
       headers: {
