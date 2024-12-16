@@ -20,7 +20,7 @@
                 data-ux_mode="popup"
                 data-itp_support="true">
             </div>
-            <!-- <div class="g_id_signin"
+            <div class="g_id_signin"
                 data-type="standard"
                 data-shape="pill"
                 data-theme="outline"
@@ -28,7 +28,7 @@
                 data-size="large"
                 data-logo_alignment="center"
                 data-width="400">
-            </div> -->
+            </div>
             <div class="separator">or</div>
             <form method="post">
                 {% csrf_token %}
@@ -42,7 +42,7 @@
 
 {% endblock %}
 {% block extra_js %}
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client"></script>
 <script>
   function getCookie(name) {
     // typical Django CSRF cookie extraction
