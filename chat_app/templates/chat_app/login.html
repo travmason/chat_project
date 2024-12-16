@@ -20,7 +20,7 @@
                 data-ux_mode="popup"
                 data-itp_support="true">
             </div>
-            <div class="g_id_signin"
+            <!-- <div class="g_id_signin"
                 data-type="standard"
                 data-shape="pill"
                 data-theme="outline"
@@ -28,7 +28,7 @@
                 data-size="large"
                 data-logo_alignment="center"
                 data-width="400">
-            </div>
+            </div> -->
             <div class="separator">or</div>
             <form method="post">
                 {% csrf_token %}
@@ -42,57 +42,47 @@
 
 {% endblock %}
 {% block extra_js %}
-  <script src="https://accounts.google.com/gsi/client"></script>
-  <script>
-      // Extract CSRF token from your cookies
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-            }
-          }
-        }
-        return cookieValue;
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  function getCookie(name) {
+    // typical Django CSRF cookie extraction
+    let cookieValue = null;
+    const cookies = document.cookie ? document.cookie.split(';') : [];
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
       }
+    }
+    return cookieValue;
+  }
 
-      const csrftoken = getCookie('csrftoken');
+  const csrftoken = getCookie('csrftoken');
 
-      // This is the callback Google One Tap will call with the credential
-      function handleCredentialResponse(response) {
-        const id_token = response.credential;
-
-        // Send the token to your backend
-        fetch("/accounts/google/login/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken
-          },
-          body: JSON.stringify({ token: id_token })
-        })
-        .then(res => {
-          if (res.ok) {
-            // handle successful authentication, e.g. redirect
-            window.location.href = "/dashboard";
-          } else {
-            // handle errors
-            console.log("Login failed.", res.statusText);
-          }
-        });
+  function handleCredentialResponse(response) {
+    const id_token = response.credential;
+    fetch('/accounts/google/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify({ token: id_token })
+    })
+    .then(res => {
+      if (res.ok) {
+        window.location.href = "/dashboard";
+      } else {
+        console.error("Login failed", res.statusText);
       }
+    });
+  }
 
-      google.accounts.id.initialize({
-        client_id: "175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-      });
-
-      // Show the prompt
-      google.accounts.id.prompt();
-  </script>
+  google.accounts.id.initialize({
+    client_id: "175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
+  google.accounts.id.prompt();
+</script>
 {% endblock %}
