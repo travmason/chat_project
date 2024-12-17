@@ -65,7 +65,7 @@
   function handleCredentialResponse(response) {
     const id_token = response.credential;
     console.log('made it into handleCredential: ', id_token);
-    fetch('/accounts/google/login/', {
+    fetch('/accounts/google_login_view/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

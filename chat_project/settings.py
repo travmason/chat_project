@@ -184,6 +184,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # Or 'mandatory' or 'none' based on your pr
 
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+
 # Redirects to the specified URL after login
 LOGIN_REDIRECT_URL = '/dashboard/'
 # Redirects to the specified URL after logout

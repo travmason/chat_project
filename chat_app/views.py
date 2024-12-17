@@ -3,8 +3,8 @@
 
 from .tasks import generate_assessment
 
-
 import json
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, views as auth_views
 from .forms import SignUpForm, ScenarioForm, CustomSignupForm
@@ -14,12 +14,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseForbidden
 from django_ratelimit.decorators import ratelimit
 # from ratelimit.exceptions import Ratelimited
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from openai import OpenAI
 import environ
@@ -68,6 +70,92 @@ def handler403(request, exception=None):
     if isinstance(exception, Ratelimited):
         return HttpResponse('Sorry you are blocked', status=429)
     return HttpResponseForbidden('Forbidden')
+
+
+def google_login_view(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest("Invalid request method.")
+    
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        token = data.get('token')
+        if not token:
+            return HttpResponseBadRequest("No token provided.")
+        
+        # Verify token with Google
+        # This will raise ValueError if the token is invalid
+        idinfo = id_token.verify_oauth2_token(
+            token,
+            google_requests.Request(),
+            settings.GOOGLE_CLIENT_ID
+        )
+        
+        # idinfo will typically contain fields like:
+        # {
+        #   "iss": "accounts.google.com",
+        #   "azp": "<client_id>",
+        #   "aud": "<client_id>",
+        #   "sub": "<Google user's unique ID>",
+        #   "email": "user@example.com",
+        #   "email_verified": True,
+        #   "name": "User Name",
+        #   "picture": "URL to profile image",
+        #   "given_name": "User",
+        #   "family_name": "Name",
+        #   ... other fields ...
+        # }
+
+        # Check the token issuer and audience
+        if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+            return HttpResponseBadRequest("Invalid token issuer.")
+
+        # Extract the required information
+        email = idinfo.get('email')
+        email_verified = idinfo.get('email_verified')
+        name = idinfo.get('name', '')
+        sub = idinfo.get('sub')  # Unique Google account identifier
+
+        if not email or not email_verified:
+            return HttpResponseBadRequest("Email not present or not verified.")
+
+        # Try to get the user by email
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Create a new user if one does not exist
+            # Depending on your user model, you may need to set a username.
+            # If using the default Django user model, username is required, 
+            # you can set it to the email or a unique string.
+            user = User.objects.create_user(
+                email=email,
+                password=None,  # No password, user logs in via Google only
+                first_name=name.split(' ')[0],
+                last_name=' '.join(name.split(' ')[1:])
+            )
+            user.set_unusable_password()  # Ensure the user cannot log in with a password
+            user.save()
+            # Optionally store the Google sub in a user profile if you have one.
+            user_profile, created = UserProfile.objects.get_or_create(
+                user=user,
+                defaults={'google_sub': sub}
+            )
+            if not created:
+                user_profile.google_sub = sub
+                user_profile.save()
+
+        # At this point, we have a user object (existing or newly created)
+        # Log them in
+        # Since we trust Google verification, we can just call login().
+        # If you prefer, you could wrap this in a custom authentication backend.
+        login(request, user)
+
+        return JsonResponse({"status": "success"})
+    except ValueError:
+        # Thrown if token verification failed
+        return HttpResponseBadRequest("Invalid token.")
+    except KeyError:
+        # If expected fields like email or sub are missing
+        return HttpResponseBadRequest("Malformed token response.")
 
 def signup(request):
     if request.method == 'POST':
