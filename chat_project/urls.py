@@ -46,8 +46,6 @@ urlpatterns = [
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
     path('accounts/', include('allauth.urls')), # all OAuth operations will be performed under this route
-    path('accounts/google_login_view/', views.google_login_view, name='google_login_view'),
-
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
