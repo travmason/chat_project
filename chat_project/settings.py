@@ -175,6 +175,8 @@ else:
 
 AUTH_USER_MODEL = 'chat_app.CustomUser'
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
 # Tell allauth to use email as the username field
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
