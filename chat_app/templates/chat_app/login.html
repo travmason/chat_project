@@ -66,6 +66,8 @@
                 {{ form|crispy }}
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
+            <div class="separator">or</div>
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
         </div>
       </div>
     </div>

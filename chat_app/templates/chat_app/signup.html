@@ -18,6 +18,8 @@
             <h2>Sign Up</h2>
             <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
             <div class="separator">or</div>
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
+            <div class="separator">or</div>
             <div class="container d-flex justify-content-between align-items-center">
               <!-- <div id="g_id_onload"
                   data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
@@ -44,8 +46,6 @@
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
         </div>
-
-        <!-- <a href="{% provider_login_url 'google' %}">Login with Google</a> -->
       </div>
     </div>
   </section>
