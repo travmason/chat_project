@@ -46,22 +46,24 @@
                 console.log("Email: " + responsePayload.email);
               }
             </script> -->
-            <div id="g_id_onload"
-                data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
-                data-context="signin"
-                data-ux_mode="popup"
-                data-login_uri="{% url 'google_login_by_token' %}"
-                data-auto_prompt="false"
-                data-itp_support="true">
-            </div>
-            <div class="g_id_signin"
-                data-type="standard"
-                data-shape="pill"
-                data-theme="outline"
-                data-text="signin_with"
-                data-size="large"
-                data-logo_alignment="center"
-                data-width="400">
+            <div class="container d-flex justify-content-between align-items-center">
+              <div id="g_id_onload"
+                  data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
+                  data-context="signin"
+                  data-ux_mode="popup"
+                  data-login_uri="{% url 'google_login_by_token' %}"
+                  data-auto_prompt="false"
+                  data-itp_support="true">
+              </div>
+              <div class="g_id_signin"
+                  data-type="standard"
+                  data-shape="pill"
+                  data-theme="outline"
+                  data-text="signin_with"
+                  data-size="large"
+                  data-logo_alignment="center"
+                  data-width="400">
+              </div>
             </div>
             <div class="separator">or</div>
             <form method="post">
