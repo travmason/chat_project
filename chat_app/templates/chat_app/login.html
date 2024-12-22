@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <h2>Login</h2>
-            <div id="g_id_onload"
+            <!-- <div id="g_id_onload"
                 data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
                 data-callback="handleCredentialResponse">
             </div>
@@ -45,13 +45,16 @@
                 console.log("Image URL: " + responsePayload.picture);
                 console.log("Email: " + responsePayload.email);
               }
-            </script>
-            <!-- <div id="g_id_onload"
+            </script> -->
+            <div id="g_id_onload"
                 data-client_id="175365173077-egetlbpsevua120elt1pm2oc47dtgk2q.apps.googleusercontent.com"
-                data-login_uri="https://rolegenie.com.au/accounts/google/login/"
-                data-auto_prompt="false">
-            </div> -->
-            <!-- <div class="g_id_signin"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-login_uri="{% url 'google_login_by_token' %}"
+                data-auto_prompt="false"
+                data-itp_support="true">
+            </div>
+            <div class="g_id_signin"
                 data-type="standard"
                 data-shape="pill"
                 data-theme="outline"
@@ -59,15 +62,13 @@
                 data-size="large"
                 data-logo_alignment="center"
                 data-width="400">
-            </div> -->
+            </div>
             <div class="separator">or</div>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
-            <div class="separator">or</div>
-            <a href="{% provider_login_url 'google' %}">Login with Google</a>
         </div>
       </div>
     </div>
