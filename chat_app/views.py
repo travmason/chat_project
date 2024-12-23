@@ -200,7 +200,8 @@ def landing(request):
 @login_required
 def student_dashboard(request):
     assignments = Assignment.objects.filter(student=request.user.userprofile).prefetch_related('conversations')
-    return render(request, 'chat_app/student_dashboard.html', {'assignments': assignments})
+    user_attributes = dir(request.user)
+    return render(request, 'chat_app/student_dashboard.html', {'assignments': assignments, 'user': request.user, 'user_attributes': user_attributes})
 
 @login_required
 def teacher_dashboard(request):
