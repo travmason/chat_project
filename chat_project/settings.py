@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    'easy_health_check.middleware.HealthCheckMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -75,6 +76,13 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 ROOT_URLCONF = 'chat_project.urls'
+
+DJANGO_EASY_HEALTH_CHECK = {
+    "PATH": "/health/",
+    "RETURN_STATUS_CODE": 200,
+    "RETURN_BYTE_DATA": "",
+    "RETURN_HEADERS": None
+}
 
 TEMPLATES = [
     {
