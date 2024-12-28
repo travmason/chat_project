@@ -5,11 +5,11 @@
 {% block content %}
 <div class="container mt-5"> <!-- page div -->
     <h2>Welcome, {{ user_atributes.first_name|default:user.email }}</h2>
-    <!-- <ul>
+    <ul>
         {% for attr in user_attributes %}
-            <li>{{ attr }}</li>
+            <li>{{ user_attributes.attr }}</li>
         {% endfor %}
-    </ul> -->
+    </ul>
     <h3>Your Assignments</h3>
             <!-- Assignment Accordion -->
                 <div class="container">
