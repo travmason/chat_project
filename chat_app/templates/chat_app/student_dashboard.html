@@ -6,8 +6,16 @@
 <div class="container mt-5"> <!-- page div -->
     <h2>Welcome, {{ user_atributes.first_name|default:user.email }}</h2>
     <ul>
-        {% for attr in user_attributes %}
-            <li>{{ user_attributes.attr }}</li>
+    <h3>User Details</h3>
+    <ul>
+        {% for key, value in user.items %}
+        <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+    <h3>User Attributes</h3>
+    <ul>
+        {% for key, value in user_attributes.items %}
+        <li>{{ key }}: {{ value }}</li>
         {% endfor %}
     </ul>
     <h3>Your Assignments</h3>
