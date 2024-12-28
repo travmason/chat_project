@@ -8,8 +8,9 @@
     <ul>
     <h3>User Details</h3>
     <ul>
-        {% for key, value in user %}
-        <li>{{ key }}: {{ value }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>First Name: {{ user.first_name }}</li>
+        <li>Last Name: {{ user.last_name }}</li>
         {% endfor %}
     </ul>
     <h3>User Attributes</h3>
