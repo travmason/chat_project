@@ -63,8 +63,9 @@ def privacy(request):
 def tos(request):
     return render(request, 'chat_app/tos.html')
 
-def health_check(request):
-    return HttpResponse('OK')
+# Won't work as the allowed host changes constaltly for the EB environment.
+# def health_check(request):
+#     return HttpResponse('OK')
 
 def handler403(request, exception=None):
     if isinstance(exception, Ratelimited):
