@@ -4,19 +4,13 @@
 
 {% block content %}
 <div class="container mt-5"> <!-- page div -->
-    <h2>Welcome, {{ user_atributes.first_name|default:user.email }}</h2>
+    <h2>Welcome, {{ user.first_name|default:user.email }}</h2>
     <ul>
     <h3>User Details</h3>
     <ul>
         <li>Email: {{ user.email }}</li>
         <li>First Name: {{ user.first_name }}</li>
         <li>Last Name: {{ user.last_name }}</li>
-    </ul>
-    <h3>User Attributes</h3>
-    <ul>
-        {% for key, value in user_attributes %}
-        <li>{{ key }}: {{ value }}</li>
-        {% endfor %}
     </ul>
     <h3>Your Assignments</h3>
             <!-- Assignment Accordion -->
