@@ -61,6 +61,7 @@ class UserProfile(models.Model):
 class Scenario(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    system = models.TextField(default='You are a customer wanting help with an issue')
     prompt = models.TextField()
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='scenarios')
