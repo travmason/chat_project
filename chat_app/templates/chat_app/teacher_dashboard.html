@@ -36,6 +36,13 @@
                     
                     <script>
                         function toggleScenario(scenarioId, isActive) {
+                            const confirmation = confirm(`Are you sure you want to ${isActive ? 'activate' : 'deactivate'} this scenario?`);
+                            if (!confirmation) {
+                                // Revert the checkbox state if the user cancels the action
+                                document.getElementById(`scenarioSwitch${scenarioId}`).checked = !isActive;
+                                return;
+                            }
+
                             fetch(`/toggle-scenario/${scenarioId}/`, {
                                 method: 'POST',
                                 headers: {
