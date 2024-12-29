@@ -206,7 +206,8 @@ def student_dashboard(request):
 
 @login_required
 def teacher_dashboard(request):
-    scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
+    scenarios = Scenario.objects.all()
+    # scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
     assignments = Assignment.objects.filter(assigned_by=request.user.userprofile)
     return render(request, 'chat_app/teacher_dashboard.html', {'scenarios': scenarios, 'assignments': assignments})
 

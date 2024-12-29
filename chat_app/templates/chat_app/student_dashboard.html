@@ -6,7 +6,7 @@
 <div class="container mt-5"> <!-- page div -->
     <div class="card shadow-sm">
         <div class="card-body">
-            <h2 class="card-title">Welcome, {{ user.first_name|default:user.email }}</h2>
+            <h2 class="card-title">Welcome {{ user.first_name|default:user.email }}</h2>
             <h3 class="card-subtitle mb-3">Your Assignments</h3>
             <!-- Assignment Accordion -->
             <div class="accordion accordion-flush" id="scenarios">
