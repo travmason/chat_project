@@ -54,14 +54,14 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    showNotification('Scenario toggled successfully.', 'success');
+                                    showNotification(`Scenario ${isActive ? 'activate' : 'deactivate'}d successfully.`, 'success');
                                 } else {
-                                    showNotification('Failed to toggle scenario.', 'danger');
+                                    showNotification('Failed to update scenario.', 'danger');
                                 }
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                showNotification('An error occurred while toggling the scenario.', 'danger');
+                                showNotification('An error occurred while updating the scenario.', 'danger');
                             });
                         }
                     
