@@ -280,7 +280,7 @@ def toggle_scenario(request, scenario_id):
             scenario = get_object_or_404(Scenario, pk=scenario_id)
 
             # Update the active status
-            scenario.active = active
+            scenario.is_active = active
             scenario.save()
 
             return JsonResponse({'success': True})
