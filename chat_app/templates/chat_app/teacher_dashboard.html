@@ -81,6 +81,7 @@
                         }
                     
                         function showNotification(message, type) {
+                            
                             // Remove existing notifications
                             const existingAlert = document.querySelector('.notification-alert');
                             if (existingAlert) {
@@ -95,6 +96,13 @@
                                 ${message}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             `;
+
+                            // Apply fixed positioning to the notification
+                            alertDiv.style.position = 'fixed';
+                            alertDiv.style.top = '0';
+                            alertDiv.style.left = '50%';
+                            alertDiv.style.transform = 'translateX(-50%)';
+                            alertDiv.style.zIndex = '1050'; // Ensure it appears above other elements
                     
                             // Insert the notification at the top of the page
                             const body = document.body;
