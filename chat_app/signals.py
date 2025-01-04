@@ -29,5 +29,5 @@ def assign_scenario_to_new_user(sender, instance, created, **kwargs):
         Assignment.objects.create(
             scenario=default_scenario,
             student=instance,
-            assigned_by=None  # Or set to a default teacher's UserProfile
+            assigned_by=1  # Or set to a default teacher's UserProfile
         )
