@@ -463,13 +463,8 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         user = self.request.user
-        try:
-            user_profile = user.userprofile
-            is_teacher = user_profile.is_teacher
-        except UserProfile.DoesNotExist:
-            # Handle the case where UserProfile does not exist
-            # Redirect to a default page or raise an exception
-            return reverse_lazy('login')
+        user_profile, created = UserProfile.objects.get_or_create(user=user)
+        is_teacher = user_profile.is_teacher
 
         if is_teacher:
             return reverse_lazy('teacher_dashboard')
