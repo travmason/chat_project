@@ -1,7 +1,7 @@
 # chat_project
  
 ## TODO
-- [ ] Change signup and User model to email as username
+- [x] Change signup and User model to email as username
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
 - [x] Create and deploy to eb
 - [x] Change to AJAX based updates for real time conversation with bot
@@ -10,7 +10,11 @@
 - [ ] Admin page to allow editing of users and to enable teacher flag per user (admin only auth)
 - [ ] User profile editor (email, bio, details, select free scenarios (one time?))
 - [ ] New user select free scenarios page (3)
-- [ ] Migrate to authentication via Cognito
+- [ ] Migrate to authentication via Google and other socials
+    - [x] Google
+    - [ ] Facebook
+    - [ ] Snapchat
+    - [ ] Others?
 - [ ] Security assessment
 - [ ] Accessability compliance
 - [ ] LMS integration
@@ -22,7 +26,7 @@
 - [ ] Marketing materials
 - [ ] Landing page
     - [x] Structure
-    - [ ] Content
+    - [x] Content
     - [ ] Mailing list
     - [x] Map
     - [x] Contact
