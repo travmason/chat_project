@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('chat_app', '0001_initial'),
     ]
+    
 
     operations = [
         migrations.CreateModel(
