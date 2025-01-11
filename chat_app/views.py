@@ -210,8 +210,16 @@ def student_dashboard(request):
         scenario__is_free=True
     ).count()
     
-    print(f'free assignment count: {free_assignments_count}')
+    # Add a script to print to the browser's console log
+    console_script = """
+    <script>
+        console.log('free assignment count: %d');
+    </script>
+    """ % free_assignments_count
 
+    # Add the script to the context
+    context['console_script'] = console_script
+    
     # Potential free scenarios that are not yet assigned to this student
     # (We could also omit scenarios they've previously assigned or completed, 
     # but you may want to decide the logic. For example, exclude scenarios 
