@@ -68,6 +68,7 @@ class Scenario(models.Model):
     role_system = models.TextField(default='You are a customer wanting help with an issue')
     prompt = models.TextField()
     is_active = models.BooleanField(default=True)
+    is_free = models.BooleanField(default=False)
     created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='scenarios')
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -45,3 +45,7 @@
     - [ ] align with funding of skills gap
 - [x] Set up end-to-end encryption through Load Balancer (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-endtoend.html)
 
+##Notes
+environment setup in ssh
+export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | 
+         sed -r 's/: /=/' | xargs)

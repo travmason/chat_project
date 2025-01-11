@@ -200,9 +200,36 @@ def landing(request):
 
 @login_required
 def student_dashboard(request):
-    assignments = Assignment.objects.filter(student=request.user.userprofile).prefetch_related('conversations')
+    user_profile = request.user.userprofile
     user_attributes = dir(request.user)
-    return render(request, 'chat_app/student_dashboard.html', {'assignments': assignments, 'user': request.user, 'user_attributes': user_attributes})
+    # All existing assignments for this student
+    assignments = Assignment.objects.filter(student=user_profile).prefetch_related('conversations')
+    
+    # Count how many free assignments they've already taken
+    free_assignments_count = assignments.filter(
+        scenario__is_free=True
+    ).count()
+    
+    # Potential free scenarios that are not yet assigned to this student
+    # (We could also omit scenarios they've previously assigned or completed, 
+    # but you may want to decide the logic. For example, exclude scenarios 
+    # that are already assigned. We'll assume a scenario can only be assigned once.)
+    available_free_scenarios = Scenario.objects.filter(
+        is_free=True, 
+        is_active=True
+    ).exclude(
+        id__in=assignments.values('scenario__id')
+    )
+    
+    # We'll pass this data to the template
+    context = {
+        'assignments': assignments,
+        'user': request.user,
+        'free_assignments_count': free_assignments_count,
+        'available_free_scenarios': available_free_scenarios,
+        'user_attributes': user_attributes,
+    }
+    return render(request, 'chat_app/student_dashboard.html', context)
 
 @login_required
 def teacher_dashboard(request):
@@ -470,3 +497,45 @@ class CustomLoginView(LoginView):
             return reverse_lazy('teacher_dashboard')
         else:
             return reverse_lazy('student_dashboard')
+
+@login_required
+def self_assign_scenario(request, scenario_id):
+    """
+    Allows a student to self-assign a free scenario,
+    given that they have not exceeded 3 free assignments.
+    """
+    if request.method != 'POST':
+        return HttpResponseBadRequest("Invalid request.")
+
+    user_profile = request.user.userprofile
+    scenario = get_object_or_404(Scenario, id=scenario_id, is_active=True, is_free=True)
+
+    # Count how many free assignments the student already has
+    free_assignments_count = Assignment.objects.filter(
+        student=user_profile,
+        scenario__is_free=True
+    ).count()
+
+    if free_assignments_count >= 3:
+        messages.error(request, "You have already reached the maximum of 3 free assignments.")
+        return redirect('student_dashboard')
+    
+    # Check if the scenario is already assigned
+    already_assigned = Assignment.objects.filter(
+        student=user_profile,
+        scenario=scenario
+    ).exists()
+
+    if already_assigned:
+        messages.error(request, "You already have this scenario assigned.")
+        return redirect('student_dashboard')
+
+    # Otherwise, create a new Assignment
+    Assignment.objects.create(
+        scenario=scenario,
+        student=user_profile,
+        assigned_by=user_profile  # or assign a default 'system' user or teacher
+    )
+
+    messages.success(request, f"'{scenario.title}' has been assigned to you.")
+    return redirect('student_dashboard')

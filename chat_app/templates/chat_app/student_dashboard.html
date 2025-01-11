@@ -76,6 +76,32 @@
                     <p>You have no assignments.</p>
                 {% endif %}
             </div>
+            <hr/>
+                <!-- Display free tier scenario selection -->
+                <h3>Pick Your Free Assignments</h3>
+
+                <p>You have selected {{ free_assignments_count }} of your 3 free assignments.</p>
+
+                {% if free_assignments_count < 3 %}
+                    <p>Below are the free-tier scenarios you can pick (up to 3 total).</p>
+                    <ul>
+                        {% for scenario in available_free_scenarios %}
+                            <li>
+                                <strong>{{ scenario.title }}</strong>:
+                                <em>{{ scenario.description|truncatechars:80 }}</em>
+                                <!-- Button or link to "self-assign" -->
+                                <form method="POST" action="{% url 'self_assign_scenario' scenario.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        Select
+                                    </button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>You have already selected your 3 free assignments.</p>
+                {% endif %}
         </div>
     </div>
 </div> <!-- end of page div -->
