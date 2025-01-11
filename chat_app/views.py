@@ -210,6 +210,8 @@ def student_dashboard(request):
         scenario__is_free=True
     ).count()
     
+    print(f'free assignment count: {free_assignments_count}')
+
     # Potential free scenarios that are not yet assigned to this student
     # (We could also omit scenarios they've previously assigned or completed, 
     # but you may want to decide the logic. For example, exclude scenarios 
@@ -220,6 +222,9 @@ def student_dashboard(request):
     ).exclude(
         id__in=assignments.values('scenario__id')
     )
+
+    for free in available_free_scenarios:
+        print(free.title)
     
     # We'll pass this data to the template
     context = {
