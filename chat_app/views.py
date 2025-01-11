@@ -223,10 +223,9 @@ def student_dashboard(request):
     available_free_scenarios = Scenario.objects.filter(
         is_free=True, 
         is_active=True
+    ).exclude(
+        id__in=assignments.values('scenario__id')
     )
-    # ).exclude(
-    #     id__in=assignments.values('scenario__id')
-    # )
     
     # We'll pass this data to the template
     context = {
