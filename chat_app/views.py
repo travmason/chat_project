@@ -26,6 +26,7 @@ from google.auth.transport import requests as google_requests
 from openai import OpenAI
 import environ
 import os
+import logging
 
 env = environ.Env(
     # set casting, default value
@@ -210,16 +211,11 @@ def student_dashboard(request):
         scenario__is_free=True
     ).count()
     
-    # Add a script to print to the browser's console log
-    console_script = """
-    <script>
-        console.log('free assignment count: %d');
-    </script>
-    """ % free_assignments_count
+    # Set up logging
+    logger = logging.getLogger(__name__)
+    # Log the free assignments count
+    logger.info('Free assignment count: %d', free_assignments_count)
 
-    # Add the script to the context
-    context['console_script'] = console_script
-    
     # Potential free scenarios that are not yet assigned to this student
     # (We could also omit scenarios they've previously assigned or completed, 
     # but you may want to decide the logic. For example, exclude scenarios 
