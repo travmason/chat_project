@@ -5,11 +5,13 @@
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
 - [x] Create and deploy to eb
 - [x] Change to AJAX based updates for real time conversation with bot
-- [ ] Re do system prompt for best response based on latest chat-gpt models
+- [x] Re do system prompt for best response based on latest chat-gpt models
 - [ ] Re skin functional pages to look pretty
+- [ ] Add delete to the scenario and assignment management in teachers dashboard
+- [ ] Create the admin dashboard for superusers to be able to edit users and change platform related features
 - [ ] Admin page to allow editing of users and to enable teacher flag per user (admin only auth)
 - [ ] User profile editor (email, bio, details, select free scenarios (one time?))
-- [ ] New user select free scenarios page (3)
+- [x] New user select free scenarios page (3)
 - [ ] Migrate to authentication via Google and other socials
     - [x] Google
     - [ ] Facebook
@@ -35,11 +37,12 @@
 - [ ] Payment gateway integration
 - [x] Student dashboard accordian integration for each assignment
 - [x] Teacher dashboard accordian integration for each student
-- [ ] 3 Free scenarios for individual freemium trial
+- [x] 3 Free scenarios for individual freemium trial
 - [ ] Content / curriculium upload and integration to prompt chain
 - [x] Remaining pages to new look base.html integration
+- [ ] Implement redis in the EB environment
 - [ ] Bold headings and indented lists in assessment feedback (prompt based or post process text?)
-- [ ] Update prompts from descriptions
+- [x] Update prompts from descriptions
 - [x] Pallette based on landing page image. Teals and Browns
 - [ ] TAFE skills inclusion of role play in any customer facing skills training
     - [ ] align with funding of skills gap
