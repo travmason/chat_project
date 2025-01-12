@@ -351,8 +351,9 @@ def start_conversation(request, assignment_id):
     # Create a new conversation
     conversation = Conversation.objects.create(
         assignment=assignment,
-        bot_context=f"{assignment.scenario.role_system}",
-        bot_prompt=f"{assignment.scenario.prompt}"
+        # deleted as normalised into Scenario
+        # bot_context=f"{assignment.scenario.role_system}", 
+        # bot_prompt=f"{assignment.scenario.prompt}"
     )
 
     # Redirect to the chat view for the new conversation
@@ -412,8 +413,7 @@ def chat_conversation(request, conversation_id):
 
         # Prepare messages for the API
         messages = [
-            {"role": "platform", "content": conversation.bot_platform},
-            {"role": "developer", "content": conversation.bot_context},
+            {"role": "developer", "content": conversation.assignment.scenario.developer},
         ]
 
         # Get previous messages
