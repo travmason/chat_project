@@ -524,7 +524,7 @@ def self_assign_scenario(request, scenario_id):
 
     if free_assignments_count >= 3:
         messages.error(request, "You have already reached the maximum of 3 free assignments.")
-        return redirect('student_dashboard')
+        return JsonResponse({'success': False, 'error': "You have already reached the maximum of 3 free assignments."}, status=500)
     
     # Check if the scenario is already assigned
     already_assigned = Assignment.objects.filter(
@@ -533,15 +533,18 @@ def self_assign_scenario(request, scenario_id):
     ).exists()
 
     if already_assigned:
-        messages.error(request, "You already have this scenario assigned.")
-        return redirect('student_dashboard')
+        return JsonResponse({'success': False, 'error': "You already have this scenario assigned."}, status=500)
 
     # Otherwise, create a new Assignment
-    Assignment.objects.create(
-        scenario=scenario,
-        student=user_profile,
-        assigned_by=user_profile  # or assign a default 'system' user or teacher
-    )
-
-    messages.success(request, f"'{scenario.title}' has been assigned to you.")
-    return redirect('student_dashboard')
+    try:
+        Assignment.objects.create(
+            scenario=scenario,
+            student=user_profile,
+            assigned_by=user_profile  # or assign a default 'system' user or teacher
+        )
+        return JsonResponse({'success': True})
+    
+    except Exception as e:
+        # Log the exception for debugging
+        print(f"Error assigning scenario: {e}")
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
