@@ -91,19 +91,19 @@
                                 <em>{{ scenario.description|truncatechars:80 }}</em>
 
                                 <!-- Button or link to "self-assign" -->
-                                <button type="submit" class="btn btn-sm btn-primary" onclick="toggleScenario({{ scenario.id }})">
-                                    Select
+                                <button type="submit" class="btn btn-sm btn-primary" onclick="addAssignment({{ scenario.id }})">
+                                    Assign
                                 </button>
                                 
                                 <script>
-                                    function toggleScenario(scenarioId) {
+                                    function addAssignment(scenarioId) {
                                         const confirmation = confirm(`Are you sure you want to add this scenario to you assignments?`);
                                         if (!confirmation) {
                                             // Do nothing if the user cancels the action
                                             return;
                                         }
             
-                                        fetch(`/self_assign_scenario/${scenarioId}/`, {
+                                        fetch(`/self-assign/${scenarioId}/`, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json',
