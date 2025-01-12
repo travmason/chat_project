@@ -115,6 +115,7 @@
                                         .then(data => {
                                             if (data.success) {
                                                 showNotification(`Assignment added successfully.`, 'success');
+                                                location.reload(); // Refresh the page to reflect the new assignment
                                             } else {
                                                 showNotification('Failed to add assignment.', 'danger');
                                             }
