@@ -46,4 +46,10 @@ class SignUpForm(UserCreationForm):
 class ScenarioForm(forms.ModelForm):
     class Meta:
         model = Scenario
-        fields = ['title', 'role_system', 'platform', 'is_active', 'is_free']
+        fields = ['title', 'role_system', 'is_active', 'is_free']
+        labels = {
+            'title': 'Title',
+            'role_system': 'Prompt',
+            'is_active': 'Set Active',
+            'is_free': 'Available on Free Tier',
+        }
