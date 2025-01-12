@@ -351,7 +351,8 @@ def start_conversation(request, assignment_id):
     # Create a new conversation
     conversation = Conversation.objects.create(
         assignment=assignment,
-        bot_context=f"You are acting as a customer in the following scenario: {assignment.scenario.description}"
+        bot_context=f"{assignment.scenario.role_system}",
+        bot_prompt=f"{assignment.scenario.prompt}"
     )
 
     # Redirect to the chat view for the new conversation
@@ -411,7 +412,8 @@ def chat_conversation(request, conversation_id):
 
         # Prepare messages for the API
         messages = [
-            {"role": "system", "content": conversation.bot_context},
+            {"role": "platform", "content": conversation.bot_platform},
+            {"role": "developer", "content": conversation.bot_context},
         ]
 
         # Get previous messages
