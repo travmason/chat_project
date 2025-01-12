@@ -109,7 +109,7 @@
                                                 'Content-Type': 'application/json',
                                                 'X-CSRFToken': getCookie('csrftoken'), // Ensure CSRF token is sent
                                             },
-                                            // body: JSON.stringify({ active: isActive })
+                                            body: JSON.stringify({ id: scenarioId })
                                         })
                                         .then(response => response.json())
                                         .then(data => {
