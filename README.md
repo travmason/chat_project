@@ -47,5 +47,7 @@
 
 ##Notes
 environment setup in ssh
+source /var/app/venv/*/bin/activate
 export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | 
          sed -r 's/: /=/' | xargs)
+python3 manage.py migrate

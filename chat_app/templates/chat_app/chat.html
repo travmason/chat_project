@@ -33,6 +33,10 @@
     <div class="message {% if message.sender == user.userprofile %}student-message{% else %}bot-message{% endif %}">
         <strong>{{ message.sender_name }}:</strong> {{ message.message }}
     </div>
+    {% empty %}
+    <div class="message bot-message">
+        <strong>The scenario:</strong> {{ conversation.assignment.scenario.description }}
+    </div>
     {% endfor %}
 </div>
 <br>
