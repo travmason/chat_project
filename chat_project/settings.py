@@ -285,14 +285,14 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)],
+            'hosts': [('rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com', 6379)],
         },
     },
 }
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Adjust if Redis is elsewhere
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'  # Adjust if Redis is elsewhere
+CELERY_RESULT_BACKEND = 'redis://rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
