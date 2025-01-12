@@ -164,7 +164,7 @@ def signup(request):
         form = CustomSignupForm(request.POST)
         if form.is_valid():
             # Save the new user to the database
-            new_user = form.save()
+            new_user = form.save(request)
             # Retrieve additional data from the form
             is_teacher = form.cleaned_data.get('is_teacher', False)
             email = form.cleaned_data.get('email')
