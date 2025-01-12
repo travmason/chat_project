@@ -90,9 +90,8 @@
                                 <strong>{{ scenario.title }}</strong>:
                                 <em>{{ scenario.description|truncatechars:80 }}</em>
 
-
                                 <!-- Button or link to "self-assign" -->
-                                <button type="submit" class="btn btn-sm btn-primary" onclick="toggleScenario({ scenario.id })">
+                                <button type="submit" class="btn btn-sm btn-primary" onclick="toggleScenario({{ scenario.id }})">
                                     Select
                                 </button>
                                 
