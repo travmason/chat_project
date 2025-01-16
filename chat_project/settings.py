@@ -245,6 +245,17 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type':'online',
         }
+    },
+    'slack': {
+        'SCOPE': [
+            'identity.basic',
+            'identity.email',
+            'identity.avatar',
+        ],
+        'APP': {
+            'client_id': os.environ.get('SLACK_CLIENT_ID'),
+            'secret': os.environ.get('SLACK_CLIENT_SECRET'),
+        }
     }
 }
 
