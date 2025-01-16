@@ -239,30 +239,30 @@ ACCOUNT_FORMS = [
     ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE' : [
-            'profile',
-            'email'
-        ],
-        'APP': {
-            'client_id': os.environ.get('CLIENT_ID'),
-            'secret': os.environ.get('CLIENT_SECRET'),
-        },
-        'AUTH_PARAMS': {
-            'access_type':'online',
-        }
-    },
-    'slack': {
-        'SCOPE': [
-            'identity.basic',
-            'identity.email',
-            'identity.avatar',
-        ],
-        'APP': {
-            'client_id': os.environ.get('SLACK_CLIENT_ID'),
-            'secret': os.environ.get('SLACK_CLIENT_SECRET'),
-        }
-    }
+    # 'google': {
+    #     'SCOPE' : [
+    #         'profile',
+    #         'email'
+    #     ],
+    #     'APP': {
+    #         'client_id': os.environ.get('CLIENT_ID'),
+    #         'secret': os.environ.get('CLIENT_SECRET'),
+    #     },
+    #     'AUTH_PARAMS': {
+    #         'access_type':'online',
+    #     }
+    # },
+    # 'slack': {
+    #     'SCOPE': [
+    #         'identity.basic',
+    #         'identity.email',
+    #         'identity.avatar',
+    #     ],
+    #     'APP': {
+    #         'client_id': os.environ.get('SLACK_CLIENT_ID'),
+    #         'secret': os.environ.get('SLACK_CLIENT_SECRET'),
+    #     }
+    # }
 }
 
 
