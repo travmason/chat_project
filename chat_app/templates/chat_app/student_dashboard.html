@@ -83,7 +83,7 @@
 
                 <p>You have selected {{ free_assignments_count }} of your 3 free assignments.</p>
 
-                {% if free_assignments_count < 3 %}
+                {% if free_assignments_count < 3 and available_free_scenarios.count > 0 %}
                     <p>Below are the free-tier scenarios you can pick (up to 3 total).</p>
                     <ul>
                         {% for scenario in available_free_scenarios %}
