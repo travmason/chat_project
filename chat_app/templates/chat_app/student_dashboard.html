@@ -20,7 +20,7 @@
                                     class="accordion-button collapsed"
                                     type="button"
                                     data-bs-toggle="collapse"
-                                    data-bs-target="#{{ assignment.scenario.title|cut:' ' }}"
+                                    data-bs-target="#{{ assignment.scenario.title|cut:' '|slugify }}"
                                 >
                                     <h3 class="accordion-title">{{ assignment.scenario.title }}</h3>
                                 </button>
