@@ -10,6 +10,43 @@
             <h2 class="card-title">Welcome {{ user.first_name|default:user.email }}</h2>
             <h3 class="card-subtitle mb-3">Your Assignments</h3>
             <!-- Assignment Accordion -->
+            <style>
+                .accordion-item {
+                    border: 1px solid #ddd;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                }
+
+                .accordion-header {
+                    background-color: #f8f9fa;
+                    border-bottom: 1px solid #ddd;
+                    border-radius: 5px 5px 0 0;
+                }
+
+                .accordion-button {
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                .accordion-body {
+                    background-color: #fff;
+                    padding: 15px;
+                    border-top: 1px solid #ddd;
+                    border-radius: 0 0 5px 5px;
+                }
+
+                .accordion-title {
+                    font-size: 1.25rem;
+                }
+
+                .table-striped tbody tr:nth-of-type(odd) {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+
+                .table-hover tbody tr:hover {
+                    background-color: rgba(0, 0, 0, 0.075);
+                }
+            </style>
             <div class="accordion accordion-flush" id="scenarios">
                 {% if assignments %}
                     {% for assignment in assignments %}
