@@ -25,7 +25,7 @@
                                     <h3 class="accordion-title">{{ assignment.scenario.title }}</h3>
                                 </button>
                             </h2>
-                            <div id="{{ assignment.scenario.title|cut:' ' }}" class="accordion-collapse collapse" data-bs-parent="#scenarios">
+                            <div id="{{ assignment.scenario.title|cut:' '|slugify }}" class="accordion-collapse collapse" data-bs-parent="#scenarios">
                                 <div class="accordion-body">
                                     <p>{{ assignment.scenario.description }}</p>
                                     <!-- List all conversations related to the assignment -->
