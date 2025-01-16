@@ -41,13 +41,17 @@ INSTALLED_APPS = [
     'chat_app',
     'crispy_forms',
     'crispy_bootstrap5',
-    
+    "django.contrib.sites", 
     # all auth configurations
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.slack',
+    'allauth.socialaccount.providers.apple',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.instagram',
 ]
 
 MIDDLEWARE = [
