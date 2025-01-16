@@ -73,6 +73,8 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+SITE_ID = 1
+
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
