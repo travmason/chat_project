@@ -310,8 +310,8 @@ CHANNEL_LAYERS = {
 }
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'  # Adjust if Redis is elsewhere
-CELERY_RESULT_BACKEND = 'redis://rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'
+CELERY_BROKER_URL = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'  # Adjust if Redis is elsewhere
+CELERY_RESULT_BACKEND = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
