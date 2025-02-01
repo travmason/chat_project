@@ -35,7 +35,7 @@ def generate_assessment(conversation_id):
         # Use ChatCompletion API to generate the assessment
         response = client.chat.completions.create(model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are an expert educator that evaluates customer service conversations and provides feedback to the customer service agent."},
+            {"role": "developer", "content": "You are an expert educator that evaluates customer service conversations and provides feedback to the customer service agent."},
             {"role": "user", "content": f"""Please assess the following conversation between a customer and a customer service agent:\n\n{transcript}\n\nProvide detailed feedback on the agent's performance, including strengths and areas for improvement. At the end of the assessment include a score between 0 and 100.
              Provide the assessment strictly in HTML format. Use only the specified tags.
             Your output must:

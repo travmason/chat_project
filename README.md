@@ -11,6 +11,9 @@
   - [x] Google
   - [ ] Facebook
   - [ ] Snapchat
+  - [ ] Microsoft
+  - [ ] Apple
+  - [ ] Slack
   - [ ] Others?
 - [ ] Security assessment
 - [ ] Accessability compliance
@@ -54,6 +57,5 @@
 ##Notes
 environment setup in ssh
 source /var/app/venv/*/bin/activate
-export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | 
-         sed -r 's/: /=/' | xargs)
+export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | sed -r 's/: /=/' | xargs)
 python3 manage.py migrate
