@@ -13,7 +13,7 @@
   - [ ] Snapchat
   - [ ] Microsoft
   - [ ] Apple
-  - [ ] Slack
+  - [x] Slack
   - [ ] Others?
 - [ ] Security assessment
 - [ ] Accessability compliance
