@@ -77,6 +77,7 @@ SITE_ID = 1
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ["www.rolegenie.com.au", "rolegenie.com.au"]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
@@ -239,19 +240,19 @@ ACCOUNT_FORMS = [
     ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    # 'google': {
-    #     'SCOPE' : [
-    #         'profile',
-    #         'email'
-    #     ],
-    #     'APP': {
-    #         'client_id': os.environ.get('CLIENT_ID'),
-    #         'secret': os.environ.get('CLIENT_SECRET'),
-    #     },
-    #     'AUTH_PARAMS': {
-    #         'access_type':'online',
-    #     }
-    # },
+    'google': {
+        'SCOPE' : [
+            'profile',
+            'email'
+        ],
+        'APP': {
+            'client_id': os.environ.get('CLIENT_ID'),
+            'secret': os.environ.get('CLIENT_SECRET'),
+        },
+        'AUTH_PARAMS': {
+            'access_type':'online',
+        }
+    },
     # 'slack': {
     #     'SCOPE': [
     #         'identity.basic',
