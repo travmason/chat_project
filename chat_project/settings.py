@@ -77,7 +77,7 @@ SITE_ID = 1
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = ["www.rolegenie.com.au", "rolegenie.com.au"]
+CSRF_TRUSTED_ORIGINS = ["https://www.rolegenie.com.au", "https://rolegenie.com.au"]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
