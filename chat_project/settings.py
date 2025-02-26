@@ -166,7 +166,7 @@ else:
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'RDS_DB_NAME' in os.environ:
+if 'PROD_DB' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -182,7 +182,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'lbai',
-            'USER': 'chatuser',
+            'USER': 'postgres',
             'PASSWORD': 'Blah1234',
             'HOST': 'localhost',
             'PORT': '5432',
@@ -311,11 +311,14 @@ CHANNEL_LAYERS = {
 }
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'  # Adjust if Redis is elsewhere
-CELERY_RESULT_BACKEND = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Adjust if Redis is elsewhere
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'  # Adjust if Redis is elsewhere
+# CELERY_RESULT_BACKEND = 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_CONNECTION_RETRY_ON_STRTUP = True
 CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
 
 # OpenAI API Key
