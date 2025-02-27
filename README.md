@@ -68,4 +68,4 @@ Creating a new user via email/pass returns the following error:
 - [x] Fixed in signals.py - old model had prompt, new has 'developer'
 ensure_adminuser.py as well as signals.py issue with model UserProfile not passed as default (currently '1')
 > Error creating UserProfile for user admin@rolegenie.com.au: Cannot assign "1": "Scenario.created_by" must be a "UserProfile" instance.
-- [ ] Fixed in TBA
+- [x] Fixed in signals.py. User instead of UserProfile in the profile assignment.
