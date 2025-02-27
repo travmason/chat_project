@@ -56,12 +56,11 @@
 
 ## Notes
 environment setup in ssh on elastic beanstalk
-
+```
 source /var/app/venv/*/bin/activate
-
 export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | sed -r 's/: /=/' | xargs)
-
 python3 manage.py migrate
+```
 
 ## Bugs
 Creating a new user via email/pass returns the following error:
