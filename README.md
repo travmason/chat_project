@@ -54,16 +54,16 @@
 - [x] Set up end-to-end encryption through Load Balancer (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-endtoend.html)
  
 
-##Notes
-environment setup in ssh
+## Notes
+environment setup in ssh on elastic beanstalk
 source /var/app/venv/*/bin/activate
 export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | sed -r 's/: /=/' | xargs)
 python3 manage.py migrate
 
-##Bugs
+## Bugs
 Creating a new user via email/pass returns the following error:
 > Error creating UserProfile for user None: Invalid field name(s) for model Scenario: 'prompt'.
 - [x] Fixed in signals.py - old model had prompt, new has 'developer'
 ensure_adminuser.py as well as signals.py issue with model UserProfile not passed as default (currently '1')
 > Error creating UserProfile for user admin@rolegenie.com.au: Cannot assign "1": "Scenario.created_by" must be a "UserProfile" instance.
-- [ ]
+- [ ] Fixed in TBA
