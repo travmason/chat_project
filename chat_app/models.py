@@ -49,7 +49,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
-# Update your UserProfile to use CustomUser
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_teacher = models.BooleanField(default=False)
