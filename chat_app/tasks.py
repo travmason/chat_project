@@ -3,6 +3,7 @@
 from celery import shared_task
 import bleach
 
+
 @shared_task
 def generate_assessment(conversation_id):
     from .models import Conversation, Message, Assessment
