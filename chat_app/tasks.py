@@ -31,6 +31,8 @@ def generate_assessment(conversation_id):
 
     client = OpenAI(api_key=OPENAI_API_KEY)
 
+    print(f'RDS_HOSTNAME: {env("RDS_HOSTNAME")}')
+
     try:
         # Use ChatCompletion API to generate the assessment
         response = client.chat.completions.create(model="gpt-4o",
