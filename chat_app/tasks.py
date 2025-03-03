@@ -60,6 +60,7 @@ def generate_assessment(conversation_id):
         max_tokens=500)
 
         assessment_text = bleach.clean(response.choices[0].message.content.strip())
+        assessment_text = bleach.clean(response.choices[0].message.content.strip())
 
         # Save the assessment
         Assessment.objects.create(
