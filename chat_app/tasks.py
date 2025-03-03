@@ -1,6 +1,7 @@
 # chat_app/tasks.py
 
 from celery import shared_task
+import bleach
 
 @shared_task
 def generate_assessment(conversation_id):
@@ -31,8 +32,6 @@ def generate_assessment(conversation_id):
 
     client = OpenAI(api_key=OPENAI_API_KEY)
 
-    print(f'RDS_HOSTNAME: {env("RDS_HOSTNAME")}')
-
     try:
         # Use ChatCompletion API to generate the assessment
         response = client.chat.completions.create(model="gpt-4o",
@@ -60,7 +59,7 @@ def generate_assessment(conversation_id):
         temperature=0.7,
         max_tokens=500)
 
-        assessment_text = response.choices[0].message.content.strip()
+        assessment_text = bleach.clean(response.choices[0].message.content.strip())
 
         # Save the assessment
         Assessment.objects.create(

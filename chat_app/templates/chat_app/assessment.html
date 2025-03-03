@@ -6,7 +6,7 @@
 <div class="container p-5">
 <h2>Assessment</h2>
 {% if assessment %}
-    <p>{{ assessment.assessment_text|linebreaks }}</p>
+    <p>{{ assessment.assessment_text|safe }}</p>
 {% else %}
     <p>The assessment is not yet available. Please check back later.</p>
 {% endif %}
