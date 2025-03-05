@@ -9,74 +9,91 @@
         <div class="card-body">
             <h2 class="card-title">Welcome {{ user.first_name|default:user.email }}</h2>
             <h3 class="card-subtitle mb-3">Your Assignments</h3>
-            <!-- Assignment Accordion -->
-            <div class="accordion accordion-flush" id="scenarios">
-                {% if assignments %}
-                    {% for assignment in assignments %}
-                        <!-- Item -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button
-                                    class="accordion-button collapsed"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#{{ assignment.scenario.title|cut:' '|slugify }}"
-                                >
-                                    <h3 class="accordion-title">{{ assignment.scenario.title }}</h3>
-                                </button>
-                            </h2>
-                            <div id="{{ assignment.scenario.title|cut:' '|slugify }}" class="accordion-collapse collapse" data-bs-parent="#scenarios">
-                                <div class="accordion-body">
-                                    <p>{{ assignment.scenario.description }}</p>
-                                    <!-- List all conversations related to the assignment -->
-                                    {% if assignment.conversations.all %}
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Conversation ID</th>
-                                                    <th>Started At</th>
-                                                    <th>Status</th>
-                                                    <th>Assessment</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for conversation in assignment.conversations.all %}
-                                                    <tr>
-                                                        <td>{{ conversation.id }}</td>
-                                                        <td>{{ conversation.started_at }}</td>
-                                                        <td>
-                                                            {% if conversation.is_active %}
-                                                                <span class="badge bg-success">Active</span>
-                                                            {% else %}
-                                                                <span class="badge bg-secondary">Ended</span>
-                                                            {% endif %}
-                                                        </td>
-                                                        <td>
-                                                            {% if conversation.is_active %}
-                                                                <a href="{% url 'chat_conversation' conversation.id %}" class="btn btn-primary btn-sm">Continue</a>
-                                                                <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger btn-sm">End</a>
-                                                            {% else %}
-                                                                <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info btn-sm">View</a>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% else %}
-                                        <p>No conversations yet.</p>
-                                    {% endif %}
-                                    <!-- Option to start a new conversation -->
-                                    <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-success mt-3">Start New Conversation</a>
-                                    <hr>
-                                </div>
-                            </div>
-                        </div><!-- End of Item -->
-                    {% endfor %}
-                {% else %}
-                    <p>You have no assignments.</p>
-                {% endif %}
-            </div>
+
+            <!-- New grid based accordian -->
+            <div class="container mt-3">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    {% if assignments %}
+                        {% for assignment in assignments %}
+                            <div class="col">
+                                <!-- Each accordion gets a unique parent ID -->
+                                <div class="accordion accordion-flush" id="scenario-{{ forloop.counter }}">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button
+                                                class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#{{ assignment.scenario.title|cut:' '|slugify }}"
+                                                aria-expanded="false"
+                                                aria-controls="{{ assignment.scenario.title|cut:' '|slugify }}"
+                                            >
+                                                <h3 class="accordion-title">
+                                                    {{ assignment.scenario.title }}
+                                                </h3>
+                                            </button>
+                                        </h2>
+                                        <div
+                                            id="{{ assignment.scenario.title|cut:' '|slugify }}"
+                                            class="accordion-collapse collapse"
+                                            data-bs-parent="#scenario-{{ forloop.counter }}"
+                                        >
+                                            <div class="accordion-body">
+                                                <p>{{ assignment.scenario.description }}</p>
+                                                <!-- List all conversations related to the assignment -->
+                                                {% if assignment.conversations.all %}
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Conversation ID</th>
+                                                                <th>Started At</th>
+                                                                <th>Status</th>
+                                                                <th>Assessment</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for conversation in assignment.conversations.all %}
+                                                                <tr>
+                                                                    <td>{{ conversation.id }}</td>
+                                                                    <td>{{ conversation.started_at }}</td>
+                                                                    <td>
+                                                                        {% if conversation.is_active %}
+                                                                            <span class="badge bg-success">Active</span>
+                                                                        {% else %}
+                                                                            <span class="badge bg-secondary">Ended</span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if conversation.is_active %}
+                                                                            <a href="{% url 'chat_conversation' conversation.id %}" class="btn btn-primary btn-sm">Continue</a>
+                                                                            <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger btn-sm">End</a>
+                                                                        {% else %}
+                                                                            <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info btn-sm">View</a>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                {% else %}
+                                                    <p>No conversations yet.</p>
+                                                {% endif %}
+                                                <!-- Option to start a new conversation -->
+                                                <a href="{% url 'start_conversation' assignment.id %}" class="btn btn-success mt-3">
+                                                    Start New Conversation
+                                                </a>
+                                                <hr>
+                                            </div><!-- end accordion-body -->
+                                        </div><!-- end accordion-collapse -->
+                                    </div><!-- end accordion-item -->
+                                </div><!-- end accordion -->
+                            </div><!-- end col -->
+                        {% endfor %}
+                    {% else %}
+                        <p>You have no assignments.</p>
+                    {% endif %}
+                </div><!-- end row -->
+            </div><!-- end container -->
             <hr/>
             {% if available_free_scenarios %}
                 <!-- Display free tier scenario selection -->
