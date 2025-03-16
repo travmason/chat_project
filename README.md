@@ -3,6 +3,7 @@
 ## TODO (Unchecked)
 - [ ] Update the prompts per research to cater for assessment and best practice found during roleplay discovery.
 - [ ] Re skin functional pages to look pretty
+- [ ] Add the generated scenarios to the database (do i need to create grades?)
 - [ ] Add delete to the scenario and assignment management in teachers dashboard
 - [ ] Create the admin dashboard for superusers to be able to edit users and change platform related features
 - [ ] Admin page to allow editing of users and to enable teacher flag per user (admin only auth)
@@ -25,6 +26,7 @@
 - [ ] Integrate with paywall
 - [ ] Marketing materials
 - [ ] Landing page
+  - [ ] Diagram the process so people can see at a glance the exlerience. 
   - [x] Structure
   - [x] Content
   - [ ] Mailing list
