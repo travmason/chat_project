@@ -6,8 +6,8 @@ import bleach
 @shared_task
 def generate_assessment(conversation_id):
     from .models import Conversation, Message, Assessment
-    import openai
-    from openai import OpenAI
+    import openai # type: ignore
+    from openai import OpenAI # type: ignore
 
     # read from the .env file and set the variable OPENAI_API_KEY to the read value.
     import environ
