@@ -63,6 +63,10 @@ source /var/app/venv/*/bin/activate
 export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | sed -r 's/: /=/' | xargs)
 python3 manage.py migrate
 ```
+## Celery startup
+```
+celery -A chat_project worker --loglevel=warning
+```
 
 ## Bugs
 Creating a new user via email/pass returns the following error:
