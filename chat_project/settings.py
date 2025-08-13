@@ -161,7 +161,9 @@ else:
                 'propagate': True,
             },
         },
+        
     }
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -302,13 +304,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ASGI_APPLICATION = 'chat_project.asgi.application'
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('rolegenie-zpkaa5.serverless.apse2.cache.amazonaws.com', 6379)],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
+            ],
         },
     },
 }
+
 
 # Celery Configuration
 CACHES = {
