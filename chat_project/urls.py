@@ -23,6 +23,7 @@ from chat_app.views import CustomLoginView
 from chat_app.views import handler403  # Import the custom handler for rate limiting
 from chat_app import views
 from django.conf.urls.static import static
+from django.http import HttpResponse, JsonResponse
 
 urlpatterns = [
     # path('health/', views.health_check, name='health_check'),
@@ -47,6 +48,16 @@ urlpatterns = [
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
     path('accounts/', include('allauth.urls')), # all OAuth operations will be performed under this route
+    path("ads.txt",      lambda r: HttpResponse("# No authorized digital sellers", content_type="text/plain")),
+    path("app-ads.txt",  lambda r: HttpResponse("# No authorized digital sellers", content_type="text/plain")),
+    path("sellers.json", lambda r: JsonResponse({
+        "seller_id": "NA",
+        "name": "RoleGenie",
+        "domain": "rolegenie.com.au",
+        "is_confidential": 1,
+        "seller_type": "PUBLISHER",
+        "is_passthrough": 0
+    })),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
