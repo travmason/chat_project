@@ -311,19 +311,27 @@ CHANNEL_LAYERS = {
 }
 
 # Celery Configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "rediss://rolegenie-valcache-zpkaa5.xxxxxx.ap-southeast-2.cache.amazonaws.com:6379/1?ssl_cert_reqs=CERT_REQUIRED",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+# Celery
 # Broker and result backend can be overridden via environment variables so that
 # a remote message broker (e.g., Redis, SQS) can be shared between the web
 # application and separate Celery workers.
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=CERT_REQUIRED')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
-
-broker_use_ssl = {"ssl_cert_reqs": "none"}
-redis_backend_use_ssl = {"ssl_cert_reqs": "none"}
 
 # OpenAI API Key
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
