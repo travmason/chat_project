@@ -322,5 +322,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
 
+broker_use_ssl = {"ssl_cert_reqs": "none"}
+redis_backend_use_ssl = {"ssl_cert_reqs": "none"}
+
 # OpenAI API Key
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
