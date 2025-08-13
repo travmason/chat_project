@@ -325,7 +325,7 @@ CACHES = {
 # Broker and result backend can be overridden via environment variables so that
 # a remote message broker (e.g., Redis, SQS) can be shared between the web
 # application and separate Celery workers.
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=CERT_REQUIRED')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=CERT_REQUIRED')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
