@@ -166,7 +166,7 @@ else:
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'PROD_DB' not in os.environ:
+if 'PROD_DB' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
