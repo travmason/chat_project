@@ -341,6 +341,8 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
+CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": "required"}
+CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": "required"}
 
 # SSL kwargs for Celery (lowercase)
 broker_use_ssl = {"ssl_cert_reqs": "required"}
