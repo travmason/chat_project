@@ -314,7 +314,7 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/1?ssl_cert_reqs=CERT_REQUIRED",
+        "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {
