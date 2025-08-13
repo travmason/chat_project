@@ -64,9 +64,18 @@ export $(/opt/elasticbeanstalk/bin/get-config --output YAML environment | sed -r
 python3 manage.py migrate
 ```
 ## Celery startup
+
 ```
 celery -A chat_project worker --loglevel=warning
 ```
+
+### Running workers in production
+Deploy a separate AWS Elastic Beanstalk *worker* environment using the same
+source code. The included `Procfile` defines a `worker` process so the worker
+environment will start the Celery worker automatically. Ensure the
+`CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND` environment variables are set
+to a broker reachable by both environments (for example, an ElastiCache Redis
+instance).
 
 ## Bugs
 Creating a new user via email/pass returns the following error:
