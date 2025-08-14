@@ -303,32 +303,60 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ASGI_APPLICATION = 'chat_project.asgi.application'
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [
-                "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
-            ],
-        },
-    },
-}
+ENV = os.getenv("ENV", "local").lower()
 
-
-# Celery Configuration
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {
-                "ssl_cert_reqs": "required",
-                # "ssl_ca_certs": "/etc/pki/tls/certs/ca-bundle.crt",  # usually not needed on Amazon Linux
+if ENV == "local":
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [
+                    "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
+                ],
             },
         },
     }
-}
+
+if ENV == "local":
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "default-local",
+        },
+        "ratelimit": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "ratelimit-local",
+        },
+    }
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": "required"},
+            },
+        },
+        "ratelimit": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": "required"},
+            },
+        },
+    }
+
+# Tell django-ratelimit which cache alias to use
+RATELIMIT_USE_CACHE = "ratelimit"
+
 
 # Celery
 # Broker and result backend can be overridden via environment variables so that
