@@ -306,24 +306,7 @@ ASGI_APPLICATION = 'chat_project.asgi.application'
 ENV = os.getenv("ENV", "local").lower()
 
 if ENV == "local":
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [
-                    "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
-                ],
-            },
-        },
-    }
-
-if ENV == "local":
+    # Don’t touch Redis for cache / channels in dev
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -334,6 +317,19 @@ if ENV == "local":
             "LOCATION": "ratelimit-local",
         },
     }
+    
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        }
+    }
+    
+    # Celery: run tasks in-process, no broker/worker needed
+    CELERY_TASK_ALWAYS_EAGER = True            # Celery 5
+    CELERY_TASK_EAGER_PROPAGATES = True        # raise exceptions to caller
+    # Optional: avoid any broker validation entirely
+    CELERY_BROKER_URL = "memory://"
+    CELERY_RESULT_BACKEND = "cache+memory://"
 else:
     CACHES = {
         "default": {
@@ -344,37 +340,44 @@ else:
                 "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": "required"},
             },
         },
+        # Ratelimit using local memory. Check for scale in prod usage, may fall over at volume.
         "ratelimit": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-                "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": "required"},
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "ratelimit-local",
+        },
+    }
+    
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [
+                    "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
+                ],
             },
         },
     }
+    # Celery
+    # Broker and result backend can be overridden via environment variables so that
+    # a remote message broker (e.g., Redis, SQS) can be shared between the web
+    # application and separate Celery workers.
+    CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0')
+    CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
+    CELERY_ACCEPT_CONTENT = ['json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+    CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
+    CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": "required"}
+    CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": "required"}
+
+    # SSL kwargs for Celery (lowercase)
+    broker_use_ssl = {"ssl_cert_reqs": "required"}
+    redis_backend_use_ssl = {"ssl_cert_reqs": "required"}
+#### end ENV
 
 # Tell django-ratelimit which cache alias to use
 RATELIMIT_USE_CACHE = "ratelimit"
-
-
-# Celery
-# Broker and result backend can be overridden via environment variables so that
-# a remote message broker (e.g., Redis, SQS) can be shared between the web
-# application and separate Celery workers.
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-CELERY_TIMEZONE = TIME_ZONE  # Use your Django TIME_ZONE setting
-CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": "required"}
-CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": "required"}
-
-# SSL kwargs for Celery (lowercase)
-broker_use_ssl = {"ssl_cert_reqs": "required"}
-redis_backend_use_ssl = {"ssl_cert_reqs": "required"}
 
 # OpenAI API Key
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
