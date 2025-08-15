@@ -9,7 +9,7 @@ dnf -y install redis6
 mkdir -p /var/lib/redis6
 mkdir -p /var/log/redis6
 touch /var/log/redis6/redis-server.log
-chown -R redis:redis /var/lib/redis6 /var/log/redis6 /var/log/redis6/redis-server.log
+chown -R redis6:redis6 /var/lib/redis6 /var/log/redis6 /var/log/redis6/redis-server.log
 chmod 0755 /var/lib/redis6
 
 # Some recommended kernel settings for Redis (safe on dev/small workloads)
