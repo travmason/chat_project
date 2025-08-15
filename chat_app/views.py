@@ -172,6 +172,7 @@ def signup(request):
             user_profile = new_user.userprofile
             user_profile.email = email
             user_profile.is_teacher = is_teacher
+            user_profile.name = form.cleaned_data.get('name')
             user_profile.save()
             # Authenticate the user
             raw_password = form.cleaned_data.get('password1')

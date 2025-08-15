@@ -22,6 +22,8 @@ class CustomLoginForm(LoginForm):
         self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
 
 class CustomSignupForm(SignupForm):
+    name = forms.CharField(label="Name", max_length=150, required=False)
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -35,6 +37,19 @@ class CustomSignupForm(SignupForm):
         # Remove help texts
         self.fields['password1'].help_text = ''
         self.fields['password2'].help_text = ''
+        self.fields['name'].widget.attrs.update({"placeholder": "Enter your preferred display name", "class": "form-control"})
+        
+    def signup(self, request, user):
+        nm = self.cleaned_data.get("name", "").strip()
+        if nm:
+            if hasattr(user, "name"):
+                user.name = nm
+            else:
+                first, *rest = nm.split(" ", 1)
+                user.first_name = first
+                user.last_name = rest[0] if rest else ""
+        user.save()
+        return user
 
 class SignUpForm(UserCreationForm):
     # is_teacher = forms.BooleanField(required=False, label='Are you a teacher?')
