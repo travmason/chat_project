@@ -335,7 +335,7 @@ else:
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0",
+            "LOCATION": "redis://127.0.0.1:6379/0",
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
                 "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": "required"},
@@ -353,7 +353,7 @@ else:
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
                 "hosts": [
-                    "rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0?ssl_cert_reqs=required"
+                    "redis://127.0.0.1:6379/0"
                 ],
             },
         },
@@ -362,7 +362,7 @@ else:
     # Broker and result backend can be overridden via environment variables so that
     # a remote message broker (e.g., Redis, SQS) can be shared between the web
     # application and separate Celery workers.
-    CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'rediss://rolegenie-valcache-zpkaa5.serverless.apse2.cache.amazonaws.com:6379/0')
+    CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://127.0.0.1:6379/0')
     CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
     CELERY_ACCEPT_CONTENT = ['json']
     CELERY_TASK_SERIALIZER = 'json'
@@ -373,8 +373,8 @@ else:
     CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": "required"}
 
     # SSL kwargs for Celery (lowercase)
-    broker_use_ssl = {"ssl_cert_reqs": "required"}
-    redis_backend_use_ssl = {"ssl_cert_reqs": "required"}
+    # broker_use_ssl = {"ssl_cert_reqs": "required"}
+    # redis_backend_use_ssl = {"ssl_cert_reqs": "required"}
     
     # Connection behavior
     broker_connection_retry_on_startup = True  # already set
