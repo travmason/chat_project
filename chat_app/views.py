@@ -19,6 +19,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseForbidden
 from django.db.models import Exists, OuterRef, Prefetch
+from django.db import transaction
 from django_ratelimit.decorators import ratelimit
 # from ratelimit.exceptions import Ratelimited
 from google.oauth2 import id_token
@@ -439,9 +440,13 @@ def chat_conversation(request, conversation_id):
             message=user_message
         )
 
+        system_prompt = "Context: This is a training simulation between a support AGENT and a CUSTOMER. The assistant plays only the CUSTOMER. The goal is to let the agent diagnose and resolve the customer’s issue."
+        system_prompt += "\n\n" +  "The store you're contacting is called: " + conversation.assignment.scenario.title
+
         # Prepare messages for the API
         messages = [
             {"role": "developer", "content": conversation.assignment.scenario.developer},
+            {"role": "system", "content": system_prompt},
         ]
 
         # Get previous messages
@@ -501,7 +506,8 @@ def end_conversation(request, conversation_id):
     conversation.save()
 
     # Trigger assessment generation (asynchronously using Celery)
-    generate_assessment.delay(conversation.id)
+    transaction.on_commit(lambda: generate_assessment.delay(conversation.id))
+    # generate_assessment.delay(conversation.id)
 
     # Redirect to the student's dashboard or an assessment page
     #return redirect('student_dashboard')  # Or redirect to 'view_assessment' if preferred
