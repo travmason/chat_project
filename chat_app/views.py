@@ -453,9 +453,10 @@ def chat_conversation(request, conversation_id):
                 messages.append({"role": "assistant", "content": msg.message})
 
         # Call OpenAI API
-
-        response = client.chat.completions.create(model=GPT_CONVERSATION_MODEL,
-        messages=messages)
+        response = client.chat.completions.create(
+            model=GPT_CONVERSATION_MODEL,
+            messages=messages
+        )
 
         bot_reply = response.choices[0].message.content.strip()
 

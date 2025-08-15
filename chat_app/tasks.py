@@ -23,8 +23,6 @@ def generate_assessment(conversation_id):
     for msg in messages:
         transcript += f"{msg.sender_name}: {msg.message}\n"
 
-    print('transcript: ', transcript)
-
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     if not OPENAI_API_KEY:
         raise ValueError("Missing OPENAI_API_KEY environment variable")
@@ -57,8 +55,6 @@ def generate_assessment(conversation_id):
                 """},
             ]
         )
-
-        print('Response received from OpenAI API: ', response)
 
         assessment_text = bleach.clean(
             response.choices[0].message.content.strip(),
