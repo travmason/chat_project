@@ -375,6 +375,17 @@ else:
     # SSL kwargs for Celery (lowercase)
     broker_use_ssl = {"ssl_cert_reqs": "required"}
     redis_backend_use_ssl = {"ssl_cert_reqs": "required"}
+    
+    # Connection behavior
+    broker_connection_retry_on_startup = True  # already set
+    broker_pool_limit = 10                     # small, controlled pool
+
+    broker_transport_options = {
+        "socket_connect_timeout": 5,
+        "socket_timeout": 5,
+        "retry_on_timeout": True,
+        # Optional: visibility_timeout if you later use rq-like semantics
+    }
 #### end ENV
 
 # Tell django-ratelimit which cache alias to use
