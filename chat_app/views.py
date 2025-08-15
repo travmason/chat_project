@@ -427,7 +427,7 @@ def chat_conversation(request, conversation_id):
 
         # Call OpenAI API
 
-        response = client.chat.completions.create(model="gpt-4o-mini",
+        response = client.chat.completions.create(model="gpt-5-mini",
         messages=messages)
 
         bot_reply = response.choices[0].message.content.strip()
