@@ -67,7 +67,6 @@ def generate_assessment(conversation_id):
             - Not include any <img> tag
              """},
         ],
-        temperature=0.7,
         max_completion_tokens=500)
 
         assessment_text = bleach.clean(
