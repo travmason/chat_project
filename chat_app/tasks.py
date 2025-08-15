@@ -68,7 +68,7 @@ def generate_assessment(conversation_id):
              """},
         ],
         temperature=0.7,
-        max_tokens=500)
+        max_completion_tokens=500)
 
         assessment_text = bleach.clean(
             response.choices[0].message.content.strip(),
