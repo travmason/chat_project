@@ -42,9 +42,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # True if not in os.environ because of casting above
 DEBUG = env('DEBUG')
 
-# Raises Django's ImproperlyConfigured
-# exception if KEY not in os.environ
 OPENAI_API_KEY = env('OPENAI_API_KEY')
+GPT_CONVERSATION_MODEL = env('GPT_CONVERSATION_MODEL', default='gpt-5-nano')
+GPT_ASSESSMENT_MODEL = env('GPT_ASSESSMENT_MODEL', default='gpt-5-mini')
 
 # create OpenAI client object
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -427,7 +427,7 @@ def chat_conversation(request, conversation_id):
 
         # Call OpenAI API
 
-        response = client.chat.completions.create(model="gpt-5-mini",
+        response = client.chat.completions.create(model=GPT_CONVERSATION_MODEL,
         messages=messages)
 
         bot_reply = response.choices[0].message.content.strip()

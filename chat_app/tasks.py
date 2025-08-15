@@ -2,6 +2,17 @@
 
 from celery import shared_task
 import bleach
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True)
+)
+
+GPT_CONVERSATION_MODEL = env('GPT_CONVERSATION_MODEL', default='gpt-5-nano')
+GPT_ASSESSMENT_MODEL = env('GPT_ASSESSMENT_MODEL', default='gpt-5-mini')
+DEBUG = env('DEBUG', default=True)
+
 
 @shared_task
 def generate_assessment(conversation_id):
@@ -34,7 +45,7 @@ def generate_assessment(conversation_id):
 
     try:
         # Use ChatCompletion API to generate the assessment
-        response = client.chat.completions.create(model="gpt-5",
+        response = client.chat.completions.create(model=GPT_ASSESSMENT_MODEL,
         messages=[
             {"role": "developer", "content": "You are an expert educator that evaluates customer service conversations and provides feedback to the customer service agent."},
             {"role": "user", "content": f"""Please assess the following conversation between a customer and a customer service agent:\n\n{transcript}\n\nProvide detailed feedback on the agent's performance, including strengths and areas for improvement. At the end of the assessment include a score between 0 and 100 and add /100 so they can see it is out of 100.
