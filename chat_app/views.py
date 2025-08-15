@@ -507,10 +507,25 @@ def end_conversation(request, conversation_id):
     return redirect('view_assessment', conversation_id=conversation.id)  # Or redirect to 'student_dashboard' if preferred
 
 @login_required
+def reassess_conversation(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+
+    # Check if the user is the student associated with the conversation
+    if request.user.userprofile != conversation.assignment.student:
+        return redirect('dashboard')
+
+    # Trigger assessment generation (asynchronously using Celery)
+    generate_assessment.delay(conversation.id)
+
+    # Redirect to the student's dashboard or an assessment page
+    return redirect('student_dashboard')  # Or redirect to 'view_assessment' if preferred
+    # return redirect('view_assessment', conversation_id=conversation.id)  # Or redirect to 'student_dashboard' if preferred
+
+@login_required
 def view_assessment(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
 
-    # Check if the user is authorized to view the assessment
+    # Check if the user is authorized to view the assessment 
     if request.user.userprofile != conversation.assignment.student:
         return redirect('dashboard')
 

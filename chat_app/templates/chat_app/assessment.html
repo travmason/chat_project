@@ -11,5 +11,7 @@
     <p>The assessment is not yet available. Please check back later.</p>
 {% endif %}
 <a href="{% url 'student_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+<a href="{% url 'reassess_conversation' assessment.conversation_id %}" class="btn btn-secondary mt-3">Re-Assess</a>
+
 </div>
 {% endblock %}

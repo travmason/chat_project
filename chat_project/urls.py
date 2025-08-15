@@ -45,6 +45,7 @@ urlpatterns = [
     path('unassign_scenario/<int:assignment_id>/', views.unassign_scenario, name='unassign_scenario'),
     path('start_conversation/<int:assignment_id>/', views.start_conversation, name='start_conversation'),
     path('end_conversation/<int:conversation_id>/', views.end_conversation, name='end_conversation'),
+    path('reassess_conversation/<int:conversation_id>/', views.reassess_conversation, name='reassess_conversation'),
     path('assessment/<int:conversation_id>/', views.view_assessment, name='view_assessment'),
     path('chat/<int:conversation_id>/', views.chat_conversation, name='chat_conversation'),
     path('accounts/', include('allauth.urls')), # all OAuth operations will be performed under this route
