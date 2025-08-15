@@ -18,6 +18,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseForbidden
+from django.db.models import Exists, OuterRef, Prefetch
 from django_ratelimit.decorators import ratelimit
 # from ratelimit.exceptions import Ratelimited
 from google.oauth2 import id_token
@@ -204,9 +205,22 @@ def landing(request):
 def student_dashboard(request):
     user_profile = request.user.userprofile
     user_attributes = dir(request.user)
-    # All existing assignments for this student
-    assignments = Assignment.objects.filter(student=user_profile).prefetch_related('conversations')
     
+    # All existing assignments for this student
+    # assignments = Assignment.objects.filter(student=user_profile).prefetch_related('conversations')
+    
+    # Assignments but flag conversations with has_assessment.
+    convos_with_flag = Conversation.objects.annotate(
+        has_assessment=Exists(
+            Assessment.objects.filter(conversation_id=OuterRef('pk'))
+        )
+    )
+    assignments = (
+        Assignment.objects
+        .filter(student=user_profile)
+        .prefetch_related(Prefetch('conversations', queryset=convos_with_flag))
+    )
+
     # Count how many free assignments they've already taken
     free_assignments_count = assignments.filter(
         scenario__is_free=True
@@ -241,8 +255,21 @@ def student_dashboard(request):
 @login_required
 def teacher_dashboard(request):
     scenarios = Scenario.objects.all()
+    
     # scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
-    assignments = Assignment.objects.filter(assigned_by=request.user.userprofile)
+    # assignments = Assignment.objects.filter(assigned_by=request.user.userprofile)
+    
+    # Assignments but flag conversations with has_assessment.
+    convos_with_flag = Conversation.objects.annotate(
+        has_assessment=Exists(
+            Assessment.objects.filter(conversation_id=OuterRef('pk'))
+        )
+    )
+    assignments = (
+        Assignment.objects
+        .filter(assigned_by=request.user.userprofile)
+        .prefetch_related(Prefetch('conversations', queryset=convos_with_flag))
+    )
     return render(request, 'chat_app/teacher_dashboard.html', {'scenarios': scenarios, 'assignments': assignments})
 
 @login_required

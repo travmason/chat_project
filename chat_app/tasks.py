@@ -85,4 +85,3 @@ def generate_assessment(conversation_id):
     except openai.OpenAIError as e:
         # Handle API errors
         print(f"OpenAI API error in generate_assessment: {e}")
-        # Optionally, you could retry the task or log the error for later review

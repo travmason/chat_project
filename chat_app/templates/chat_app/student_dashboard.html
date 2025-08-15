@@ -48,7 +48,7 @@
                                                                 <th>Conversation ID</th>
                                                                 <th>Started At</th>
                                                                 <th>Status</th>
-                                                                <th>Assessment</th>
+                                                                <th>Conversation</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -68,7 +68,11 @@
                                                                             <a href="{% url 'chat_conversation' conversation.id %}" class="btn btn-primary btn-sm">Continue</a>
                                                                             <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger btn-sm">End</a>
                                                                         {% else %}
-                                                                            <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info btn-sm">View</a>
+                                                                            {% if conversation.has_assessment %}
+                                                                                <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-info btn-sm">View</a>
+                                                                            {% else %}
+                                                                                <a href="{% url 'view_assessment' conversation.id %}" class="btn btn-secondary btn-sm disabled" aria-disabled="true">View</a>
+                                                                            {% endif %}
                                                                         {% endif %}
                                                                     </td>
                                                                 </tr>
