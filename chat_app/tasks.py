@@ -2,16 +2,11 @@
 
 from celery import shared_task
 import bleach
-import environ
+import os
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, True)
-)
-
-GPT_CONVERSATION_MODEL = env('GPT_CONVERSATION_MODEL', default='gpt-5-nano')
-GPT_ASSESSMENT_MODEL = env('GPT_ASSESSMENT_MODEL', default='gpt-5-mini')
-DEBUG = env('DEBUG', default=True)
+GPT_CONVERSATION_MODEL = os.getenv('GPT_CONVERSATION_MODEL', 'gpt-5-nano')
+GPT_ASSESSMENT_MODEL = os.getenv('GPT_ASSESSMENT_MODEL', 'gpt-5-mini')
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes', 'on')
 
 
 @shared_task
@@ -19,10 +14,6 @@ def generate_assessment(conversation_id):
     from .models import Conversation, Message, Assessment
     import openai # type: ignore
     from openai import OpenAI # type: ignore
-
-    # read from the .env file and set the variable OPENAI_API_KEY to the read value.
-    import environ
-    import os
 
     conversation = Conversation.objects.get(id=conversation_id)
     messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
@@ -32,14 +23,9 @@ def generate_assessment(conversation_id):
     for msg in messages:
         transcript += f"{msg.sender_name}: {msg.message}\n"
 
-    # Read environment variables
-    env = environ.Env(
-        DEBUG=(bool, True)
-    )
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-    DEBUG = env('DEBUG')
-    OPENAI_API_KEY = env('OPENAI_API_KEY')
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    if not OPENAI_API_KEY:
+        raise ValueError("Missing OPENAI_API_KEY environment variable")
 
     client = OpenAI(api_key=OPENAI_API_KEY)
 
