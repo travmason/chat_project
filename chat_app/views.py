@@ -45,7 +45,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 DEBUG = env('DEBUG')
 
 OPENAI_API_KEY = env('OPENAI_API_KEY')
-GPT_CONVERSATION_MODEL = env('GPT_CONVERSATION_MODEL', default='gpt-5-nano')
+GPT_CONVERSATION_MODEL = env('GPT_CONVERSATION_MODEL', default='gpt-4o')
 GPT_ASSESSMENT_MODEL = env('GPT_ASSESSMENT_MODEL', default='gpt-5-mini')
 
 # create OpenAI client object

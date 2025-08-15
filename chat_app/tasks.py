@@ -4,8 +4,8 @@ from celery import shared_task
 import bleach
 import os
 
-GPT_CONVERSATION_MODEL = os.getenv('GPT_CONVERSATION_MODEL', 'gpt-5-nano')
-GPT_ASSESSMENT_MODEL = os.getenv('GPT_ASSESSMENT_MODEL', 'gpt-5-mini')
+GPT_CONVERSATION_MODEL = os.getenv('GPT_CONVERSATION_MODEL', 'gpt-5-mini')
+GPT_ASSESSMENT_MODEL = os.getenv('GPT_ASSESSMENT_MODEL', 'gpt-5')
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes', 'on')
 
 
