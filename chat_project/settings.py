@@ -179,7 +179,7 @@ if 'PROD_DB' in os.environ:
             'PORT': os.environ['RDS_PORT'],
         }
     }
-else:
+elif 'DEV_DB' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -188,6 +188,13 @@ else:
             'PASSWORD': 'Blah1234',
             'HOST': 'localhost',
             'PORT': '5432',
+        }
+    }
+else:   #default to sqlite for local dev if no PROD_DB and no DEV_DB
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
