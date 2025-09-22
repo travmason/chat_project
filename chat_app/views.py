@@ -227,6 +227,8 @@ def student_dashboard(request):
         scenario__is_free=True
     ).count()
     
+    print("Free assignment count:", free_assignments_count)
+    
     # Set up logging
     logger = logging.getLogger(__name__)
     # Log the free assignments count
@@ -256,7 +258,6 @@ def student_dashboard(request):
 @login_required
 def teacher_dashboard(request):
     scenarios = Scenario.objects.all()
-    
     # scenarios = Scenario.objects.filter(created_by=request.user.userprofile)
     # assignments = Assignment.objects.filter(assigned_by=request.user.userprofile)
     
@@ -529,19 +530,47 @@ def reassess_conversation(request, conversation_id):
     # return redirect('view_assessment', conversation_id=conversation.id)  # Or redirect to 'student_dashboard' if preferred
 
 @login_required
-def view_assessment(request, conversation_id):
-    conversation = get_object_or_404(Conversation, id=conversation_id)
+# def view_assessment(request, conversation_id):
+#     conversation = get_object_or_404(Conversation, id=conversation_id)
 
-    # Check if the user is authorized to view the assessment 
+#     # Check if the user is authorized to view the assessment 
+#     if request.user.userprofile != conversation.assignment.student:
+#         return redirect('dashboard')
+
+#     try:
+#         assessment = conversation.assessment
+#     except Assessment.DoesNotExist:
+#         assessment = None
+
+#     return render(request, 'chat_app/assessment.html', {'assessment': assessment})
+def view_assessment(request, conversation_id):
+    # Pull the conversation + related bits
+    conversation = get_object_or_404(
+        Conversation.objects.select_related(
+            "assignment__student", "assignment__scenario"
+        ).prefetch_related("messages"),
+        id=conversation_id,
+    )
+
+    # Authorisation: only the assigned student can view
     if request.user.userprofile != conversation.assignment.student:
         return redirect('dashboard')
 
-    try:
-        assessment = conversation.assessment
-    except Assessment.DoesNotExist:
-        assessment = None
+    # Get the (optional) assessment
+    assessment = getattr(conversation, "assessment", None)
 
-    return render(request, 'chat_app/assessment.html', {'assessment': assessment})
+    # Order messages chronologically for chat rendering
+    messages = conversation.messages.order_by("timestamp")
+
+    return render(
+        request,
+        "chat_app/assessment.html",
+        {
+            "conversation": conversation,
+            "assessment": assessment,
+            "messages": messages,
+        },
+    )
 
 class CustomLoginView(LoginView):
     template_name = 'chat_app/login.html'
