@@ -8,6 +8,36 @@
     <a href="{% url 'create_scenario' %}" class="btn btn-success">Create Scenario</a>
     <a href="{% url 'assign_scenario' %}" class="btn btn-info">Assign Scenario</a>
 
+    <h3>Assignments</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Scenario</th>
+                <th>Student</th>
+                <th>Assigned At</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td>{{ assignment.scenario.title }}</td>
+                <td>{{ assignment.student.user.email }}</td>
+                <td>{{ assignment.assigned_at }}</td>
+                <td>{{ assignment.is_completed|yesno:"Completed,Pending" }}</td>
+                <td>
+                        <a href="{% url 'unassign_scenario' assignment.id %}" class="btn btn-warning">Unassign</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No assignments yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h3>Your Scenarios</h3>
     <table id="scenarios" class="table table-striped">
         <thead>
@@ -128,36 +158,6 @@
             {% empty %}
             <tr>
                 <td colspan="3">No scenarios created yet.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3>Assignments</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Scenario</th>
-                <th>Student</th>
-                <th>Assigned At</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for assignment in assignments %}
-            <tr>
-                <td>{{ assignment.scenario.title }}</td>
-                <td>{{ assignment.student.user.email }}</td>
-                <td>{{ assignment.assigned_at }}</td>
-                <td>{{ assignment.is_completed|yesno:"Completed,Pending" }}</td>
-                <td>
-                        <a href="{% url 'unassign_scenario' assignment.id %}" class="btn btn-warning">Unassign</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No assignments yet.</td>
             </tr>
             {% endfor %}
         </tbody>

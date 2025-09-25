@@ -272,6 +272,7 @@ def teacher_dashboard(request):
         .filter(assigned_by=request.user.userprofile)
         .prefetch_related(Prefetch('conversations', queryset=convos_with_flag))
     )
+    
     return render(request, 'chat_app/teacher_dashboard.html', {'scenarios': scenarios, 'assignments': assignments})
 
 @login_required
@@ -311,7 +312,13 @@ def assign_scenario(request):
             error = "Student not found."
             return render(request, 'chat_app/assign_scenario.html', {'error': error})
     else:
-        scenarios = Scenario.objects.filter(created_by=request.user.userprofile, is_active=True)
+        # scenarios = Scenario.objects.filter(created_by=request.user.userprofile, is_active=True)
+        scenarios = Scenario.objects.filter(is_active=True)
+                # Check what type of data is actually stored
+        scenarios_debug = Scenario.objects.all()
+        for scenario in scenarios_debug:
+            print(f"Scenario {scenario.id}: is_active = '{scenario.is_active}' (type: {type(scenario.is_active)})")
+        # print ("Scenarios:", scenarios)
         users = User.objects.filter(userprofile__is_teacher=False)
         return render(request, 'chat_app/assign_scenario.html', {'scenarios': scenarios, 'users': users})
 
