@@ -22,6 +22,10 @@
     .end-conversation {
         margin-top: 20px;
     }
+    #voice-input.voice-active {
+        background-color: #17a2b8;
+        color: #fff;
+    }
 </style>
 {% endblock %}
 
@@ -45,10 +49,23 @@
     <div class="input-group">
         <input type="text" name="message" id="chat-message-input" class="form-control" placeholder="Type your message..." autocomplete="off">
         <div class="input-group-append">
+            <button type="button" id="voice-input" class="btn btn-outline-secondary" title="Start voice input">
+                <span aria-hidden="true">🎤</span>
+                <span class="sr-only">Start voice input</span>
+            </button>
+        </div>
+        <div class="input-group-append">
             <button type="submit" id="chat-message-submit" class="btn btn-primary">Send</button>
         </div>
     </div>
 </form>
+<div class="d-flex justify-content-between align-items-center mt-2">
+    <small id="voice-status" class="text-muted"></small>
+    <button type="button" id="toggle-tts" class="btn btn-sm btn-outline-secondary" title="Toggle spoken responses">
+        <span aria-hidden="true">🔊</span>
+        <span class="sr-only">Toggle spoken responses</span>
+    </button>
+</div>
 <div class="end-conversation"></div>
     <a href="{% url 'end_conversation' conversation.id %}" class="btn btn-danger">End Conversation</a>
 </div>
@@ -96,10 +113,130 @@
         chatLog.scrollTop = chatLog.scrollHeight;
     }
 
+    var speechSupported = ('speechSynthesis' in window);
+    var recognitionSupported = ('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window);
+    var recognition;
+    var isRecognizing = false;
+    var voiceInputButton = $('#voice-input');
+    var voiceStatus = $('#voice-status');
+    var ttsToggleButton = $('#toggle-tts');
+    var ttsEnabled = speechSupported;
+    voiceStatus.data('error', false);
+
+    function updateTtsButton() {
+        if (!speechSupported) {
+            ttsToggleButton.prop('disabled', true).addClass('disabled');
+            ttsToggleButton.find('[aria-hidden="true"]').text('🔇');
+            ttsToggleButton.attr('title', 'Text-to-speech is not supported in this browser');
+        } else {
+            ttsToggleButton.toggleClass('btn-outline-secondary', ttsEnabled);
+            ttsToggleButton.toggleClass('btn-outline-danger', !ttsEnabled);
+            ttsToggleButton.attr('title', ttsEnabled ? 'Disable spoken responses' : 'Enable spoken responses');
+            ttsToggleButton.find('[aria-hidden="true"]').text(ttsEnabled ? '🔊' : '🔇');
+        }
+    }
+
+    function speakText(text) {
+        if (!ttsEnabled || !speechSupported || !text) {
+            return;
+        }
+        window.speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopRecognition() {
+        if (recognition && isRecognizing) {
+            recognition.stop();
+        }
+    }
+
+    function initializeRecognition() {
+        if (!recognitionSupported) {
+            voiceInputButton.prop('disabled', true).addClass('disabled');
+            voiceInputButton.attr('title', 'Speech recognition is not supported in this browser');
+            voiceStatus.text('Speech recognition not supported in this browser.');
+            return;
+        }
+
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.addEventListener('start', function() {
+            isRecognizing = true;
+            voiceInputButton.addClass('voice-active');
+            voiceInputButton.attr('title', 'Stop voice input');
+            voiceInputButton.find('[aria-hidden="true"]').text('⏹️');
+            voiceStatus.text('Listening...');
+        });
+
+        recognition.addEventListener('end', function() {
+            isRecognizing = false;
+            voiceInputButton.removeClass('voice-active');
+            voiceInputButton.attr('title', 'Start voice input');
+            voiceInputButton.find('[aria-hidden="true"]').text('🎤');
+            if (!voiceStatus.data('error')) {
+                voiceStatus.text('');
+            }
+            voiceStatus.data('error', false);
+        });
+
+        recognition.addEventListener('error', function(event) {
+            voiceStatus.data('error', true);
+            if (event.error !== 'no-speech') {
+                voiceStatus.text('Voice input error: ' + event.error);
+            } else {
+                voiceStatus.text('No speech detected.');
+            }
+        });
+
+        recognition.addEventListener('result', function(event) {
+            var transcript = Array.from(event.results)
+                .map(function(result) { return result[0]; })
+                .map(function(result) { return result.transcript; })
+                .join(' ')
+                .trim();
+
+            if (transcript) {
+                var messageInput = $('#chat-message-input');
+                messageInput.val(transcript);
+                messageInput.focus();
+                $('#chat-form').trigger('submit');
+            }
+        });
+
+        voiceInputButton.on('click', function() {
+            if (isRecognizing) {
+                stopRecognition();
+            } else {
+                voiceStatus.data('error', false);
+                recognition.lang = document.documentElement.lang || 'en-US';
+                recognition.start();
+            }
+        });
+    }
+
     // Document ready function
     $(document).ready(function() {
         // Scroll to bottom on page load
         scrollChatToBottom();
+
+        initializeRecognition();
+        updateTtsButton();
+
+        ttsToggleButton.on('click', function() {
+            if (!speechSupported) {
+                return;
+            }
+            ttsEnabled = !ttsEnabled;
+            if (!ttsEnabled) {
+                window.speechSynthesis.cancel();
+            }
+            updateTtsButton();
+        });
 
         $('#chat-form').on('submit', function(event) {
             event.preventDefault();
@@ -153,6 +290,8 @@
 
                     // Scroll to the bottom
                     scrollChatToBottom();
+
+                    speakText(data.bot_reply.message);
                 },
                 error: function(xhr, errmsg, err) {
                     // Remove loading indicator
@@ -165,6 +304,7 @@
                     alert('There was an error sending your message. Please try again.');
                     console.log('AJAX Error: ' + errmsg);
                     console.log('AJAX Error: ' + xhr.status + ': ' + xhr.responseText);
+                    stopRecognition();
                 }
             });
         });
